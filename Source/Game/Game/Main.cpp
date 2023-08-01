@@ -104,7 +104,10 @@ public:
 };
 
 int main(int argc, char* argv[])
-{
+{	
+	INFO_LOG;
+
+	//cout << "start game...\n";
 	
 	kiko::MemoryTracker::Initialize();
 	kiko::seedRandom((unsigned int)time(nullptr));
@@ -183,7 +186,7 @@ int main(int argc, char* argv[])
 			kiko::g_renderer.SetColor(static_cast<Uint8>(star.m_color.r), static_cast<Uint8>(star.m_color.g), static_cast<Uint8>(star.m_color.b), static_cast<Uint8>(star.m_color.a));
 			//star.Draw(kiko::g_renderer);
 
-			int circleRadius = 25;
+			int circleRadius = 200;
 			kiko::g_renderer.DrawFilledCircle(star.m_pos.x, star.m_pos.y, star.m_color.a, circleRadius);
 		}
 

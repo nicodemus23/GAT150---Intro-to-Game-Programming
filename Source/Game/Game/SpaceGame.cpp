@@ -143,7 +143,7 @@ void SpaceGame::Draw(kiko::Renderer& renderer)
 {
 	if (m_state == eState::Title)
 	{
-		m_titleText->Draw(renderer, 100, 200);
+		//m_titleText->Draw(renderer, 100, 200);
 	}
 	if (m_state == eState::GameOver)
 	{
