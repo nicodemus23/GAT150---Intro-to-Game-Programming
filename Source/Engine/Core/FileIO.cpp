@@ -40,7 +40,7 @@ namespace kiko
 	{
 		if (!fileExists(path))
 		{
-			WARNING_LOG;
+			WARNING_LOG("File not loaded: " << path.string())
 			//std::cout << "file not found:  " << path << std::endl;
 			return false;
 

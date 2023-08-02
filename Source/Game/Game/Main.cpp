@@ -105,7 +105,11 @@ public:
 
 int main(int argc, char* argv[])
 {	
-	INFO_LOG;
+
+	/*int j = 0;
+	ASSERT_LOG(j,  "Pointer is null, yo.")*/
+
+	INFO_LOG(" 'ello y'all");
 
 	//cout << "start game...\n";
 	
