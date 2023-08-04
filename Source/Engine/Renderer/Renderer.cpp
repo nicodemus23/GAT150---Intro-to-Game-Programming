@@ -1,14 +1,19 @@
 #include "Renderer.h"
+#include "Texture.h"
 #include "SDL2-2.28.0/include/SDL_ttf.h"
 #include "SDL2-2.28.0/include/SDL.h"
+#include "SDL2-2.28.0/include/SDL_Image.h"
+
 
 namespace kiko
 {
 	Renderer g_renderer;
+	class Teture;
 
 	bool Renderer::Initialize()
 	{
 		SDL_Init(SDL_INIT_VIDEO);
+		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 		TTF_Init(); // TRUE TYPE FONT
 
 		return true;
@@ -19,6 +24,7 @@ namespace kiko
 		SDL_DestroyRenderer(m_renderer);
 		SDL_DestroyWindow(m_window);
 		TTF_Quit();
+		IMG_Quit();
 
 	}
 
@@ -83,5 +89,47 @@ namespace kiko
 
 			SDL_RenderDrawLine(m_renderer, static_cast<int>(x1), static_cast<int>(y1), static_cast<int>(x2), static_cast<int>(y2));
 		}
+
+
+
 	}
+
+	void Renderer::DrawTexture(Texture* texture, float x, float y, float angle, float scaleX, float scaleY)
+	{
+		vec2 size = texture->GetSize();
+
+		SDL_Rect dest;
+		dest.x = static_cast<int>(x);
+		dest.y = static_cast<int>(y);
+		dest.w = static_cast<int>(size.x * scaleX);
+		dest.h = static_cast<int>(size.y * scaleY);
+
+		/*int SDL_RenderCopyEx(SDL_Renderer * renderer,
+			SDL_Texture * texture,
+			const SDL_Rect * srcrect,
+			const SDL_Rect * dstrect,
+			const double angle,
+			const SDL_Point * center,
+			const SDL_RendererFlip flip);*/
+
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
+	}
+
+
+	// McKinley's code addition:
+	// slightly different than homework imgScaleX and imgScaleY parameters added for ease of picture sizing
+	//void Renderer::DrawTexture(Texture* texture, float x, float y, float angle, float imgScaleX, float imgScaleY)
+	//{
+	//	vec2 size = texture->GetSize();
+
+	//	SDL_Rect dest;
+	//	dest.x = static_cast<int>(x);
+	//	dest.y = static_cast<int>(y);
+
+	//	dest.w = static_cast<int>(size.x * imgScaleX); // scale x determined here
+	//	dest.h = static_cast<int>(size.y * imgScaleY); // scale y determined here
+
+	//	SDL_RenderCopyEx(m_renderer, texture->m_texture, nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
+	//}
+
 }

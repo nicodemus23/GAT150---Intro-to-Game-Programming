@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Core.h"
 #include "Renderer/Model.h"
+#include "Component.h"
 #include <memory>
 
 
@@ -23,6 +24,8 @@ namespace kiko
 		virtual void Update(float dt);
 		virtual void Draw(kiko::Renderer& renderer);
 
+		void AddComponent(std::unique_ptr<Component> component);
+
 		float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : -10000; }
 		virtual void OnCollision(Actor* other) {} // {} is a dummy function so it doesn't get implemented 
 
@@ -40,6 +43,8 @@ namespace kiko
 		float m_lifespan = -1.0f;
 
 	protected:
+		std::vector<std::unique_ptr<Component>> m_components;
+		//std::vector<Component> m_components; can't create an object of an abstract class <Component> without creating a pointer to the Abstract Class // unique pointer forces deletion so we don't have to do delete, delete
 
 		bool m_destroyed = false;
 

@@ -8,7 +8,9 @@
 #include "Renderer/ModelManager.h"
 #include "SpaceGame.h"
 #include <cmath>
-
+#include "Framework/Resource/ResourceManager.h"
+#include "Framework/Resource.h"
+#include "Framework/SpriteComponent.h"
 
 bool SpaceGame::Initialize()
 {
@@ -16,7 +18,8 @@ bool SpaceGame::Initialize()
 
 	// CREATE FONT AND TEXT OBJECTS // shared pointer used so multiple assets can use it. 
 	
-	m_font = std::make_shared<kiko::Font>("arcade.ttf", 100);
+	m_font = kiko::g_resources.Get<kiko::Font>("arcade.ttf", 100);
+	//std::make_shared<kiko::Font>("arcade.ttf", 100);
 	m_scoreFont = std::make_shared<kiko::Font>("arcade.ttf", 50);
 	m_timerFont = std::make_shared<kiko::Font>("arcade.ttf", 50);
 	//m_messageFont = std::make_shared<kiko::Font>("arcade.ttf", 35);
@@ -86,11 +89,17 @@ void SpaceGame::Update(float dt)
 	case SpaceGame::eState::StartLevel:
 		m_scene->RemoveAll();
 		{
-			// PLAYER //
+			// CREATE PLAYER //
 			std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 6 }, kiko::g_manager.Get("jet.txt"));
 			player->m_tag = "Player";
 			player->m_game = this;
 			player->SetDamping(0.5f);
+
+			// CREATE COMPONENTS
+			std::unique_ptr<kiko::SpriteComponent> component = std::make_unique<kiko::SpriteComponent>();
+			component->m_texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
+			player->AddComponent(std::move(component));
+
 			m_scene->Add(std::move(player));
 
 		}

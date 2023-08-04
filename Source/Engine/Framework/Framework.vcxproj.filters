@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Resource">
+      <UniqueIdentifier>{fc9ea863-12da-4091-af1f-b9543f4bc7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{19fff326-3569-4cd4-b810-d1d865802d7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -23,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="Emitter.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ResourceManager.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,5 +50,25 @@
     <ClInclude Include="Emitter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\ResourceManager.h">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Framework.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

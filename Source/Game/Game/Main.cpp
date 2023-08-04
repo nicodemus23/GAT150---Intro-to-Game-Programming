@@ -1,23 +1,29 @@
 #include "Core/Core.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/ModelManager.h"
+#include "Renderer/Texture.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
-#include "Player.h"
-#include "Enemy.h"
 #include "Framework/Scene.h"
 #include "Framework/Emitter.h"
 #include "Game/Weapon.h"
-#include "SpaceGame.h"
 #include "SDL2-2.28.0/include/SDL.h"
+#include "Framework/Resource/ResourceManager.h"
+#include "Framework/Resource.h"
 
+#include "Player.h"
+#include "Enemy.h"
+#include "SpaceGame.h"
+
+#include <memory>
+#include "Renderer/Text.h"
+#include "Renderer/ParticleSystem.h"
 #include <iostream>
 #include <vector>
 #include <thread>
-#include <memory>
-//#include "Renderer/Font.h"
-#include "Renderer/Text.h"
-#include "Renderer/ParticleSystem.h"
+#include <array>
+#include <list>
+#include <map>
 
 using namespace std;
 
@@ -103,24 +109,80 @@ public:
 
 };
 
+template <typename T>
+void print(const std::string& s, const T& container)
+{
+	std::cout << s << std::endl;
+	for (auto element : container)
+	{
+		std::cout << element << " ";
+	}
+	std::cout << std::endl;
+}
+
 int main(int argc, char* argv[])
 {	
 
 	/*int j = 0;
 	ASSERT_LOG(j,  "Pointer is null, yo.")*/
-
-	INFO_LOG(" 'ello y'all");
-
 	//cout << "start game...\n";
-	
+
+	//INFO_LOG(" 'ello y'all");
+
+	//int n[4] = { 1,2,3,4 };
+	//print("array: 0", n);
+	//cout << n << endl;
+	//cout << n[0] << endl;
+	//cout << *n << endl;
+	//cout << (*n + 1) << endl;
+
+	//
+	//std::array<int, 4> na = { 1,2,3,4 };
+	//print("ARRAY CLASS: ", na);
+	//cout << na.front() << endl;
+	//cout << na.back() << endl;
+	//cout << na.max_size() << endl;
+	//	
+
+	//std::vector<int> nv = { 1,2,3,4 };	
+	//print("Vector: ", nv);
+	//nv.insert(nv.begin() + 2, 0);
+	//nv.push_back(5);
+	//nv.pop_back();
+	//nv[3] = 10;
+	////auto iter = std::remove(nv.begin(), nv.end(), 2);
+	//auto iter = nv.erase(nv.begin(), nv.end());
+	//print("Vector: ", nv);
+
+	//std::list<int> nl = { 1,2,3,4 };
+	//print("List: ", nl);
+	//nl.push_front(0);
+	//print("List: ", nl);
+
+	//std::map<std::string, int> ages;
+	//ages["charles"] = 17;
+	//ages["xane"] = 18;
+	//ages["jacob"] = 19;
+	//ages["jacob"] = 20;
+
+
+	/*cout << ages["jacob"] << endl;
+	cout << ages["xane"] << endl;*/
+
+
 	kiko::MemoryTracker::Initialize();
 	kiko::seedRandom((unsigned int)time(nullptr));
 	kiko::setFilePath("assets");
 
+	int j = 2;
+	int i = 2;
+	int ij = i + j;
+	std::cout << endl;
+
 	
 	// Initialize Game Engine // 
 	kiko::g_renderer.Initialize();
-	kiko::g_renderer.CreateWindow("CSC196", 800, 600);
+	kiko::g_renderer.CreateWindow("GAT150", 800, 600);
 
 	// set blend render blend mode for alpha
 	SDL_SetRenderDrawBlendMode(kiko::g_renderer.GetSDLRenderer(), SDL_BLENDMODE_BLEND);
@@ -134,6 +196,15 @@ int main(int argc, char* argv[])
 	// create game // 
 	unique_ptr<SpaceGame> game = make_unique<SpaceGame>();
 	game->Initialize();
+
+	// create texture
+	// look into if not working
+	//shared_ptr<kiko::Texture> texture1 = make_shared<kiko::Texture>();
+	//shared_ptr<kiko::Texture> texture2 = make_shared<kiko::Texture>();
+	kiko::res_t<kiko::Texture> texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
+
+	//texture1->Load("AngryNerds.jpg", kiko::g_renderer);
+	//texture2->Load("COMING SOON!.png", kiko::g_renderer);
 
 
 	
@@ -173,12 +244,9 @@ int main(int argc, char* argv[])
 
 		kiko::g_particleSystem.Update(kiko::g_time.GetDeltaTime());
 
-
-
 		// update game
 		game->Update(kiko::g_time.GetDeltaTime());
 	
-
 		// draw game
 		kiko::g_renderer.SetColor(0, 0, 0, 0);
 		kiko::g_renderer.BeginFrame();
@@ -194,11 +262,16 @@ int main(int argc, char* argv[])
 			kiko::g_renderer.DrawFilledCircle(star.m_pos.x, star.m_pos.y, star.m_color.a, circleRadius);
 		}
 
+
+
 		game->Draw(kiko::g_renderer);
 
-
+		// draw particles
 		kiko::g_particleSystem.Draw(kiko::g_renderer);
-		
+
+		// draw texture
+		//kiko::g_renderer.DrawTexture(texture1.get(), 250.0f, 50.0f, 0.0f, 0.5f, 0.5f);
+		//kiko::g_renderer.DrawTexture(texture2.get(), 245.0f, 460.0f, 0.0f, 0.15f, 0.15f);
 
 		
 		kiko::g_renderer.EndFrame();
