@@ -33,6 +33,13 @@ namespace kiko
 	}
 
 
+	bool Model::Create(std::string filename, ...)
+	{
+
+		return Load(filename);
+	}
+
+
 	void Model::Draw(Renderer& renderer, const vec2& position, float rotation, float scale)
 	{
 		if (m_points.empty()) return;
