@@ -201,7 +201,7 @@ int main(int argc, char* argv[])
 	// look into if not working
 	//shared_ptr<kiko::Texture> texture1 = make_shared<kiko::Texture>();
 	//shared_ptr<kiko::Texture> texture2 = make_shared<kiko::Texture>();
-	kiko::res_t<kiko::Texture> texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
+	//kiko::res_t<kiko::Texture> texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
 
 	//texture1->Load("AngryNerds.jpg", kiko::g_renderer);
 	//texture2->Load("COMING SOON!.png", kiko::g_renderer);

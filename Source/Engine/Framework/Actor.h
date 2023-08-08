@@ -25,6 +25,8 @@ namespace kiko
 		virtual void Draw(kiko::Renderer& renderer);
 
 		void AddComponent(std::unique_ptr<Component> component);
+		template<typename T>
+		T* GetActor();
 
 		float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : -10000; }
 		virtual void OnCollision(Actor* other) {} // {} is a dummy function so it doesn't get implemented 
@@ -53,5 +55,15 @@ namespace kiko
 		vec2 m_velocity;
 		float m_damping = 0;
 	};
+
+	template<typename T>
+	inline T* Actor::GetActor()
+	{
+		for (auto& compponent : m_components)
+		{
+			T* result = 
+		}
+		return nullptr;
+	}
 
 }

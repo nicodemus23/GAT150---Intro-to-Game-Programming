@@ -4,6 +4,9 @@
 #include "Weapon.h"
 #include "Framework/Scene.h"
 #include "SpaceGame.h"
+#include "Framework/SpriteComponent.h"
+#include "Renderer/Texture.h"
+#include "Framework/Resource/ResourceManager.h"
 
 
 
@@ -31,8 +34,20 @@ void Player::Update(float dt)
 	 !kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
 	{
 		// create weapon
-		kiko::Transform transform{m_transform.position, m_transform.rotation, 1};
-		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(500.0f, m_transform, m_model);
+		kiko::Transform transform1{m_transform.position, m_transform.rotation, + kiko::DegreesToRadians};
+		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(500.0f, m_transform1);
+		weapon->m_tag = "Player"; // player weapon
+		m_scene->Add(std::move(weapon));
+
+		std::unique_ptr<kiko::SpriteComponent> component = std::make_unique<kiko::SpriteComponent>();
+		component->m_texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
+		player->AddComponent(std::move(component));
+
+
+
+
+		kiko::Transform transform2{m_transform.position, m_transform.rotation, 1};
+		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(500.0f, m_transform);
 		weapon->m_tag = "Player"; // player weapon
 		m_scene->Add(std::move(weapon));
 

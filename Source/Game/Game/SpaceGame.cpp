@@ -11,6 +11,7 @@
 #include "Framework/Resource/ResourceManager.h"
 #include "Framework/Resource.h"
 #include "Framework/SpriteComponent.h"
+#include "Framework/Components/EnginePhysicsComponent.h"
 
 bool SpaceGame::Initialize()
 {
@@ -90,7 +91,7 @@ void SpaceGame::Update(float dt)
 		m_scene->RemoveAll();
 		{
 			// CREATE PLAYER //
-			std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 6 }, kiko::g_manager.Get("jet.txt"));
+			std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 6 });
 			player->m_tag = "Player";
 			player->m_game = this;
 			player->SetDamping(0.5f);
@@ -99,6 +100,10 @@ void SpaceGame::Update(float dt)
 			std::unique_ptr<kiko::SpriteComponent> component = std::make_unique<kiko::SpriteComponent>();
 			component->m_texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
 			player->AddComponent(std::move(component));
+
+			auto physicsComponent = std::make_unique<kiko::EnginePhysicsComponent>();
+			player->AddComponent(std::move(physicsComponent));
+
 
 			m_scene->Add(std::move(player));
 

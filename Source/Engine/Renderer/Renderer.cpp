@@ -99,8 +99,10 @@ namespace kiko
 		vec2 size = texture->GetSize();
 
 		SDL_Rect dest;
-		dest.x = static_cast<int>(x);
-		dest.y = static_cast<int>(y);
+		//dest.x = (static_cast<int>(x) - (size.x * 0.5f));
+		//dest.y = (static_cast<int>(y) - (size.y * 0.5f));
+		dest.x = (x - (size.x * 0.5f));
+		dest.y = (y - (size.y * 0.5f));
 		dest.w = static_cast<int>(size.x * scaleX);
 		dest.h = static_cast<int>(size.y * scaleY);
 
