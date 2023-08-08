@@ -34,26 +34,26 @@ public:
 		m_pos{ pos },
 		m_vel{ vel },
 		m_color{ static_cast<Uint8>(kiko::random(256)),static_cast<Uint8>(kiko::random(256)),static_cast<Uint8>(kiko::random(256)), static_cast<Uint8>(kiko::random(1)) },
-		m_targetAlpha {5},
-		m_alphaChangeSpeed {20.0f}
+		m_targetAlpha{ 5 },
+		m_alphaChangeSpeed{ 20.0f }
 		//// Generate a random color for each star and vary color with (156) + 100
 		////m_color{ kiko::random(156) + 100, kiko::random(156) + 100, kiko::random(156) + 100, kiko::random(255)} // Generate a random color for each star and vary color with (156) + 100
 	{}
 
-	
+
 
 	void Update(int width, int height)
 	{
-	/*	m_pos += m_vel * kiko::g_time.GetDeltaTime();
-		if (m_pos.x >= width) m_pos.x = 0;
-		if (m_pos.y >= height) m_pos.y = 0;*/
+		/*	m_pos += m_vel * kiko::g_time.GetDeltaTime();
+			if (m_pos.x >= width) m_pos.x = 0;
+			if (m_pos.y >= height) m_pos.y = 0;*/
 
 		m_pos += m_vel * kiko::g_time.GetDeltaTime();
 		if (m_pos.x >= width) m_pos.x = 0;
 		if (m_pos.y >= height) m_pos.y = 0;
 
-//////////////////////// FINAL TWINKLE SOLUTION //////////////////////////////////////////////////
-		// Interpolate alpha towards the target alpha value
+		//////////////////////// FINAL TWINKLE SOLUTION //////////////////////////////////////////////////
+				// Interpolate alpha towards the target alpha value
 
 		float twinkleProb = 1.0f;
 
@@ -71,27 +71,27 @@ public:
 				m_color.a += (alphaDiff > 0) ? alphaChange : -alphaChange;
 			}
 		}
-		
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////// first twinkle solution ///////////////////////////////
-		// randomize alpha component of stars for twinkle effect 
-		//if (kiko::randomf(0.1f, 5.0f) < 2.5)
-		//{
-		//	m_color.a = kiko::random(50); // lower value
-		//}
-		//else if (kiko::randomf(0.0f, 10.0f) > 2.5f)
-		//{
-		//	m_color.a = kiko::random(50)+ 20; // higher value
-		//}
-/////////////////////////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+
+		//////////////////////////////////////// first twinkle solution ///////////////////////////////
+				// randomize alpha component of stars for twinkle effect 
+				//if (kiko::randomf(0.1f, 5.0f) < 2.5)
+				//{
+				//	m_color.a = kiko::random(50); // lower value
+				//}
+				//else if (kiko::randomf(0.0f, 10.0f) > 2.5f)
+				//{
+				//	m_color.a = kiko::random(50)+ 20; // higher value
+				//}
+		/////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 	/*void Draw(kiko::Renderer& renderer)
 	{
 		renderer.DrawPoint(m_pos.x, m_pos.y);
 	}*/
 
-//////////////////////////////// FILLED CIRCLES //////////////////////////////////////////
+	//////////////////////////////// FILLED CIRCLES //////////////////////////////////////////
 	void DrawFilledCircle(kiko::Renderer& renderer)
 	{
 		float radius = 25.0f;
@@ -121,7 +121,7 @@ void print(const std::string& s, const T& container)
 }
 
 int main(int argc, char* argv[])
-{	
+{
 
 	/*int j = 0;
 	ASSERT_LOG(j,  "Pointer is null, yo.")*/
@@ -179,7 +179,7 @@ int main(int argc, char* argv[])
 	int ij = i + j;
 	std::cout << endl;
 
-	
+
 	// Initialize Game Engine // 
 	kiko::g_renderer.Initialize();
 	kiko::g_renderer.CreateWindow("GAT150", 800, 600);
@@ -207,8 +207,8 @@ int main(int argc, char* argv[])
 	//texture2->Load("COMING SOON!.png", kiko::g_renderer);
 
 
-	
-	
+
+
 	////// STARS //////
 	vector<Star> stars;
 	for (int i = 0; i < 1500; i++)
@@ -228,9 +228,9 @@ int main(int argc, char* argv[])
 	//}
 
 	// PLAYER
-	
+
 	// main game loop
-	
+
 	bool quit = false;
 	while (!quit)
 	{
@@ -246,7 +246,7 @@ int main(int argc, char* argv[])
 
 		// update game
 		game->Update(kiko::g_time.GetDeltaTime());
-	
+
 		// draw game
 		kiko::g_renderer.SetColor(0, 0, 0, 0);
 		kiko::g_renderer.BeginFrame();
@@ -273,12 +273,12 @@ int main(int argc, char* argv[])
 		//kiko::g_renderer.DrawTexture(texture1.get(), 250.0f, 50.0f, 0.0f, 0.5f, 0.5f);
 		//kiko::g_renderer.DrawTexture(texture2.get(), 245.0f, 460.0f, 0.0f, 0.15f, 0.15f);
 
-		
+
 		kiko::g_renderer.EndFrame();
 	}
 	stars.clear();
 
-	
+
 
 	return 0;
 }
