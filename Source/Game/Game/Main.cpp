@@ -1,23 +1,14 @@
-#include "Core/Core.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/ModelManager.h"
-#include "Renderer/Texture.h"
-#include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
-#include "Framework/Scene.h"
-#include "Framework/Emitter.h"
-#include "Game/Weapon.h"
-#include "SDL2-2.28.0/include/SDL.h"
-#include "Framework/Resource/ResourceManager.h"
-#include "Framework/Resource.h"
+#include "Core/Core.h"
+#include "Framework/Framework.h"
+
+#include "Renderer/Renderer.h"
+#include "Input/InputSystem.h"
 
 #include "Player.h"
 #include "Enemy.h"
 #include "SpaceGame.h"
 
-#include <memory>
-#include "Renderer/Text.h"
-#include "Renderer/ParticleSystem.h"
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -100,12 +91,12 @@ public:
 	}
 
 
-public:
-	kiko::vec2 m_pos;
-	kiko::vec2 m_vel;
-	kiko::Color m_color;
-	int m_targetAlpha;
-	float m_alphaChangeSpeed;
+	public:
+		kiko::vec2 m_pos;
+		kiko::vec2 m_vel;
+		kiko::Color m_color;
+		int m_targetAlpha;
+		float m_alphaChangeSpeed;
 
 };
 
@@ -120,71 +111,22 @@ void print(const std::string& s, const T& container)
 	std::cout << std::endl;
 }
 
+
+
 int main(int argc, char* argv[])
 {
-
-	/*int j = 0;
-	ASSERT_LOG(j,  "Pointer is null, yo.")*/
-	//cout << "start game...\n";
-
-	//INFO_LOG(" 'ello y'all");
-
-	//int n[4] = { 1,2,3,4 };
-	//print("array: 0", n);
-	//cout << n << endl;
-	//cout << n[0] << endl;
-	//cout << *n << endl;
-	//cout << (*n + 1) << endl;
-
-	//
-	//std::array<int, 4> na = { 1,2,3,4 };
-	//print("ARRAY CLASS: ", na);
-	//cout << na.front() << endl;
-	//cout << na.back() << endl;
-	//cout << na.max_size() << endl;
-	//	
-
-	//std::vector<int> nv = { 1,2,3,4 };	
-	//print("Vector: ", nv);
-	//nv.insert(nv.begin() + 2, 0);
-	//nv.push_back(5);
-	//nv.pop_back();
-	//nv[3] = 10;
-	////auto iter = std::remove(nv.begin(), nv.end(), 2);
-	//auto iter = nv.erase(nv.begin(), nv.end());
-	//print("Vector: ", nv);
-
-	//std::list<int> nl = { 1,2,3,4 };
-	//print("List: ", nl);
-	//nl.push_front(0);
-	//print("List: ", nl);
-
-	//std::map<std::string, int> ages;
-	//ages["charles"] = 17;
-	//ages["xane"] = 18;
-	//ages["jacob"] = 19;
-	//ages["jacob"] = 20;
-
-
-	/*cout << ages["jacob"] << endl;
-	cout << ages["xane"] << endl;*/
+	INFO_LOG("Initialize Engine, yo...")
 
 
 	kiko::MemoryTracker::Initialize();
 	kiko::seedRandom((unsigned int)time(nullptr));
 	kiko::setFilePath("assets");
 
-	int j = 2;
-	int i = 2;
-	int ij = i + j;
-	std::cout << endl;
-
-
 	// Initialize Game Engine // 
 	kiko::g_renderer.Initialize();
 	kiko::g_renderer.CreateWindow("GAT150", 800, 600);
 
-	// set blend render blend mode for alpha
+	// Set blend render blend mode for alpha
 	SDL_SetRenderDrawBlendMode(kiko::g_renderer.GetSDLRenderer(), SDL_BLENDMODE_BLEND);
 
 	// Initialize inputSystem
@@ -198,16 +140,12 @@ int main(int argc, char* argv[])
 	game->Initialize();
 
 	// create texture
-	// look into if not working
 	//shared_ptr<kiko::Texture> texture1 = make_shared<kiko::Texture>();
 	//shared_ptr<kiko::Texture> texture2 = make_shared<kiko::Texture>();
-	//kiko::res_t<kiko::Texture> texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
+	kiko::res_t<kiko::Texture> texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
 
 	//texture1->Load("AngryNerds.jpg", kiko::g_renderer);
 	//texture2->Load("COMING SOON!.png", kiko::g_renderer);
-
-
-
 
 	////// STARS //////
 	vector<Star> stars;
@@ -218,16 +156,6 @@ int main(int argc, char* argv[])
 
 		stars.push_back(Star(pos, vel));
 	}
-
-	//for (int i = 0; i < 1500; i++)
-	//{
-	//	kiko::Vector2 pos(kiko::Vector2(kiko::random(kiko::g_renderer.GetWidth()), kiko::random(kiko::g_renderer.GetHeight())));
-	//	//kiko::Vector2 vel(kiko::randomf(10, 200), 0.0f);
-
-	//	stars.push_back(Star(pos));
-	//}
-
-	// PLAYER
 
 	// main game loop
 
@@ -278,28 +206,116 @@ int main(int argc, char* argv[])
 	}
 	stars.clear();
 
-
-
 	return 0;
 }
 
 
-//
-//kiko::g_audioSystem.Update();
-//
-////// check for laser sound
-//if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE))
+
+
+
+// pass by value (in int main) - makes a copy
+void zero(int v)
+{
+	v = 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// pass by pointer version -  pass address to variable and may want to change it or not (const)
+//void zero(int* v)
 //{
-//	// check if played
-//	if (!laserSound)
-//	{
-//		kiko::g_audioSystem.PlayOneShot("laser");
-//		laserSound = true;
-//	}
+//	*v = 0;
 //}
-//else
-//{
-//	// reset so every time the spacebar is pressed it works again
 //
-//	laserSound = false;
+//// pass by reference // may want to change it or not (const)
+//void zero_ref(int& v)  // can't pass to a literal value unless you make this const (const int& v)
+//{
+//	v = 0;
 //}
+//
+//void print(std::string s)
+//{
+//	cout << s << endl;
+//}
+//
+//void print(std::vector<int>)
+//{
+//
+//}
+
+
+
+	// passed value
+//int i = 5;
+//zero(i);
+//cout << i << endl;
+//
+//// passed pointer * > &
+//int i = 5;
+//zero(&i);
+//cout << i << endl;
+//
+//// passed by reference 
+//int i = 5;
+//zero_ref(i);
+//cout << i << endl;
+//std::string str = "hello";
+//print(str);
+//
+//std::vector<int> vec;
+//vec.resize(10000);
+//print(vec);
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/*int j = 0;
+ASSERT_LOG(j,  "Pointer is null, yo.")*/
+//cout << "start game...\n";
+
+//INFO_LOG(" 'ello y'all");
+
+//int n[4] = { 1,2,3,4 };
+//print("array: 0", n);
+//cout << n << endl;
+//cout << n[0] << endl;
+//cout << *n << endl;
+//cout << (*n + 1) << endl;
+
+//
+//std::array<int, 4> na = { 1,2,3,4 };
+//print("ARRAY CLASS: ", na);
+//cout << na.front() << endl;
+//cout << na.back() << endl;
+//cout << na.max_size() << endl;
+//	
+
+//std::vector<int> nv = { 1,2,3,4 };	
+//print("Vector: ", nv);
+//nv.insert(nv.begin() + 2, 0);
+//nv.push_back(5);
+//nv.pop_back();
+//nv[3] = 10;
+////auto iter = std::remove(nv.begin(), nv.end(), 2);
+//auto iter = nv.erase(nv.begin(), nv.end());
+//print("Vector: ", nv);
+
+//std::list<int> nl = { 1,2,3,4 };
+//print("List: ", nl);
+//nl.push_front(0);
+//print("List: ", nl);
+
+//std::map<std::string, int> ages;
+//ages["charles"] = 17;
+//ages["xane"] = 18;
+//ages["jacob"] = 19;
+//ages["jacob"] = 20;
+
+
+/*cout << ages["jacob"] << endl;
+cout << ages["xane"] << endl;*/

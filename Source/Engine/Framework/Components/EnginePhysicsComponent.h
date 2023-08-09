@@ -7,8 +7,10 @@ namespace kiko
 	class EnginePhysicsComponent : public PhysicsComponent
 	{
 	public:
-		Update(float dt) = 0.5f;
+		// Inherited via PhysicsComponent
+		virtual void Update(float dt) override;
 
+		virtual void ApplyForce(const vec2& force) override;
 	};
 
 }

@@ -1,17 +1,20 @@
+#include "SpaceGame.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "Framework/Scene.h"
+
 #include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
+
 #include "Renderer/Renderer.h"
 #include "Renderer/Text.h"
-#include "Renderer/ModelManager.h"
-#include "SpaceGame.h"
-#include <cmath>
+
+#include "Framework/Scene.h"
 #include "Framework/Resource/ResourceManager.h"
 #include "Framework/Resource.h"
 #include "Framework/SpriteComponent.h"
 #include "Framework/Components/EnginePhysicsComponent.h"
+
+#include <cmath>
 
 bool SpaceGame::Initialize()
 {
@@ -23,7 +26,6 @@ bool SpaceGame::Initialize()
 	//std::make_shared<kiko::Font>("arcade.ttf", 100);
 	m_scoreFont = std::make_shared<kiko::Font>("arcade.ttf", 50);
 	m_timerFont = std::make_shared<kiko::Font>("arcade.ttf", 50);
-	//m_messageFont = std::make_shared<kiko::Font>("arcade.ttf", 35);
 	
 
 	m_scoreText = std::make_unique<kiko::Text>(m_scoreFont);
@@ -31,9 +33,6 @@ bool SpaceGame::Initialize()
 
 	m_titleText = std::make_unique<kiko::Text>(m_font);
 	m_titleText->Create(kiko::g_renderer, "Crack Attack!", kiko::Color{ 255, 255, 0, 0 });
-
-	/*m_messageText = std::make_unique<kiko::Text>(m_messageFont);
-	m_messageText->Create(kiko::g_renderer, "and all of my players/fx are broken!", kiko::Color{ 255, 255, 0, 1 });*/
 
 	m_gameoverText = std::make_unique<kiko::Text>(m_font);
 	m_gameoverText->Create(kiko::g_renderer, "FAIL", kiko::Color{ 255, 255, 0, 1 });
@@ -61,12 +60,12 @@ void SpaceGame::Update(float dt)
 	{
 	case SpaceGame::eState::Title:
 	{
-		//// Animate the title alpha from 0 to 255
+		//// Animate the TITLE alpha from 0 to 255
 		const float animationDuration = 0.1f; // Adjust the duration of the animation as needed
 		m_titleAlpha += 255.0f * (dt / animationDuration);
 		m_titleAlpha = std::min(m_titleAlpha, 10.0f);
 
-		 // Animate the title alpha using the easing function
+		 // Animate the TITLE alpha using the easing function
 		//const float animationDuration = 0.1f; // Adjust the duration of the animation as needed
 		//float t = std::min(m_titleAlpha / 255.0f, 1.0f); // Clamp t between 0 and 1
 		//float easedT = t < 0.5f ? 2.0f * t * t : 1.0f - std::pow(-2.0f * t + 2.0f, 2.0f) * 0.5f;
@@ -77,6 +76,8 @@ void SpaceGame::Update(float dt)
 		{
 			m_state = eState::StartGame;
 		}
+
+		// check:
 		//std::cout << "Title Alpha: " << m_titleAlpha << std::endl;
 		
 		break;
@@ -91,17 +92,20 @@ void SpaceGame::Update(float dt)
 		m_scene->RemoveAll();
 		{
 			// CREATE PLAYER //
+
 			std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 6 });
 			player->m_tag = "Player";
 			player->m_game = this;
-			player->SetDamping(0.5f);
 
-			// CREATE COMPONENTS
-			std::unique_ptr<kiko::SpriteComponent> component = std::make_unique<kiko::SpriteComponent>();
-			component->m_texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
-			player->AddComponent(std::move(component));
+			// CREATE COMPONENTS //
+
+			// sprite component
+			auto renderComponent = std::make_unique<kiko::SpriteComponent>();
+			renderComponent->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+			player->AddComponent(std::move(renderComponent));
 
 			auto physicsComponent = std::make_unique<kiko::EnginePhysicsComponent>();
+			physicsComponent->m_damping = 0.9f;
 			player->AddComponent(std::move(physicsComponent));
 
 
@@ -116,9 +120,16 @@ void SpaceGame::Update(float dt)
 		if (m_spawnTimer >= m_spawnTime)
 		{	// ENEMY //
 			m_spawnTimer = 0;
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 3}, kiko::g_manager.Get("enemy_ship.txt"));
+			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 6});
 			enemy->m_tag = "Enemy";
 			enemy->m_game = this;
+
+			std::unique_ptr<kiko::SpriteComponent> component = std::make_unique<kiko::SpriteComponent>();
+
+			//put in enemy png
+			component->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+			enemy->AddComponent(std::move(component));
+
 			m_scene->Add(std::move(enemy));
 		}
 		break;
@@ -166,6 +177,5 @@ void SpaceGame::Draw(kiko::Renderer& renderer)
 
 	m_timerText->Draw(renderer, 725, 550);
 	m_scoreText->Draw(renderer, 35, 550);
-	//m_messageText->Draw(renderer, 115, 285);
 	m_scene->Draw(renderer);
 }

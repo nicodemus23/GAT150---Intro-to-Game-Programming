@@ -9,7 +9,6 @@ namespace kiko
 	// if we're just dealing with references and pointers, you can use a forward declarations:
 	class Renderer;
 	
-
 	class Scene
 	{
 	public:

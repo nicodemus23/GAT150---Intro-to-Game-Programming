@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/Core.h"
 #include "Renderer/Model.h"
-#include "Component.h"
+#include "Components/Component.h"
 #include <memory>
 
 
@@ -12,13 +12,8 @@ namespace kiko
 	{
 	public:
 		Actor() = default;
-		Actor(const kiko::Transform& transform) : 
-			m_transform{ transform }	
-		{}
-
-		Actor(const kiko::Transform& transform, std::shared_ptr<Model> model) :
-			m_transform{ transform },
-			m_model{ model }
+		Actor(const kiko::Transform& transform) :
+			m_transform{ transform }
 		{}
 
 		virtual void Update(float dt);
@@ -26,18 +21,20 @@ namespace kiko
 
 		void AddComponent(std::unique_ptr<Component> component);
 		template<typename T>
-		T* GetActor();
+		T* GetComponent();
 
-		float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : -10000; }
+		float GetRadius() { return 30.0f; }
 		virtual void OnCollision(Actor* other) {} // {} is a dummy function so it doesn't get implemented 
 
-		void AddForce(const vec2& force) { m_velocity += force; }
-		void SetDamping(float damping) { m_damping = damping; }
+	//	void AddForce(const vec2& force) { m_velocity += force; }
+	//	void SetDamping(float damping) { m_damping = damping; }
 
+		// scene
 		class Scene* m_scene = nullptr;
 		// lets this class see your "privates" 
 		friend class Scene;
 
+		// game
 		class Game* m_game = nullptr;
 
 		Transform m_transform;
@@ -50,18 +47,15 @@ namespace kiko
 
 		bool m_destroyed = false;
 
-		std::shared_ptr<Model> m_model;
-
-		vec2 m_velocity;
-		float m_damping = 0;
 	};
 
 	template<typename T>
-	inline T* Actor::GetActor()
+	inline T* Actor::GetComponent()
 	{
-		for (auto& compponent : m_components)
+		for (auto& component : m_components)
 		{
-			T* result = 
+			T* result = dynamic_cast<T*>(component.get());
+			if (result) return result;
 		}
 		return nullptr;
 	}

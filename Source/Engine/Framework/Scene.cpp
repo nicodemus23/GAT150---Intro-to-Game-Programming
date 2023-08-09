@@ -2,21 +2,21 @@
 
 
 namespace kiko
-// adding namespace to the .cpp file before declaring the declaration from .h will truncate the need for kiko::
+	// adding namespace to the .cpp file before declaring the declaration from .h will truncate the need for kiko::
 {
 	void Scene::Update(float dt)
 	{
 
-	// update and remove destroyed actors 
-	auto iter = m_actors.begin();
+		// update and remove destroyed actors 
+		auto iter = m_actors.begin();
 
-	// goes through each element // iterator contains actor // checking to see if actor is destroyed 
-	while (iter != m_actors.end())
-	{
-		(*iter)->Update(dt);
-		// if actor is destroyed, erase, else just go to the next one (++iter)
-		((*iter)->m_destroyed) ? iter = m_actors.erase(iter) : iter++;			
-	}
+		// goes through each element // iterator contains actor // checking to see if actor is destroyed 
+		while (iter != m_actors.end())
+		{
+			(*iter)->Update(dt);
+			// if actor is destroyed, erase, else just go to the next one (++iter)
+			((*iter)->m_destroyed) ? iter = m_actors.erase(iter) : iter++;
+		}
 
 		// check collisions // do this while we're NOT at the end // end is one past the last one 
 		for (auto iter1 = m_actors.begin(); iter1 != m_actors.end(); iter1++) // iter1
@@ -35,23 +35,21 @@ namespace kiko
 				}
 			}
 		}
-		
+
 	}
 
 
 	void Scene::Draw(Renderer& renderer)
 
-		{
+	{
 		for (auto& actor : m_actors) actor->Draw(renderer);
-		}
+	}
 
 
 	void Scene::Add(std::unique_ptr<Actor> actor)
 	{
-
 		actor->m_scene = this;
 		m_actors.push_back(std::move(actor));
-
 	}
 
 

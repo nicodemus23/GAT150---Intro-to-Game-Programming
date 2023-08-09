@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "Framework/Game.h"
 #include "Renderer/Text.h"
 

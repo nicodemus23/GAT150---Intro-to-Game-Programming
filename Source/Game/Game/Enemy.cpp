@@ -1,8 +1,8 @@
 #include "Enemy.h"
-#include "Renderer/Renderer.h"
+#include "Player.h"
 #include "Framework/Scene.h"
 #include "Framework/Emitter.h"
-#include "Player.h"
+#include "Renderer/Renderer.h"
 #include "SpaceGame.h"
 
 
@@ -39,9 +39,7 @@ void Enemy::Update(float dt)
 }
 
 void Enemy::OnCollision(Actor* other)
-{	// checks the type of player
-	//Player* p = dynamic_cast<Player*>(other);
-
+{	
 	if (other->m_tag == "Player")
 	{
 		m_game->AddPoints(100);

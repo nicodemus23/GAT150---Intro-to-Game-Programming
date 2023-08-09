@@ -1,7 +1,13 @@
 #pragma once
-#include <SDL2-2.28.0/include/SDL.h>
+#include "Font.h"
+#include "Model.h"
+#include "Particle.h"
+#include "ParticleSystem.h"
+#include "Text.h"
+#include "Texture.h"
+
 #include <string>
-#include "Core/Color.h"
+#include <SDL2-2.28.0/include/SDL.h>
 
 namespace kiko
 {
@@ -30,13 +36,11 @@ namespace kiko
 		int GetWidth() const { return m_width; }
 		int GetHeight() const { return m_height; }
 
-	
-		void DrawTexture(class Texture* texture, float x, float y, float angle = 0.0f, float scaleX = 1.0f, float scaleY = 1.0f);
+		void DrawTexture(class Texture* texture, float x, float y, float angle = 0.0f);
 
 		SDL_Renderer* GetSDLRenderer() const { return m_renderer; }
 
 		friend class Text;
-		friend class Texture;
 
 	private:
 		int m_width = 0;
@@ -45,6 +49,8 @@ namespace kiko
 
 		SDL_Renderer* m_renderer = nullptr;
 		SDL_Window* m_window = nullptr;
+
+		friend class Texture;
 	};
 
 	extern Renderer g_renderer;

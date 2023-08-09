@@ -1,12 +1,14 @@
 #pragma once
-#include "Component.h"
+#include "Components/Component.h"
 
 namespace kiko
 {
-	class RenderComponent : public Component // type of component hiererarchy 
+	class RenderComponent : public Component // Component = derived class // type of component hiererarchy 
 	{
 	public:
 		virtual void Draw(class Renderer& renderer) = 0;
+
+	private: // 
 	};
 
 

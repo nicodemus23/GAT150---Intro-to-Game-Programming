@@ -1,9 +1,14 @@
 #include "ModelRenderComponent.h"
 
-void kiko::ModelRenderComponent::Update(float dt)
+namespace kiko
 {
+	void ModelRenderComponent::Update(float dt)
+	{
+	}
+
+	void ModelRenderComponent::Draw(Renderer& renderer)
+	{
+	}
 }
 
-void kiko::ModelRenderComponent::Draw(Renderer& renderer)
-{
-}
+

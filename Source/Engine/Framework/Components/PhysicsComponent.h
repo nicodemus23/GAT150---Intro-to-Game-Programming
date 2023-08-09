@@ -1,13 +1,12 @@
 #pragma once
-#include "Framework/Component.h"
-#include "Core/Vector2.h"
+#include "Framework/Components/Component.h"
+#include "Core/Math/Vector2.h"
 
 namespace kiko
 {
 	class PhysicsComponent : public Component
 	{
 	public:
-		virtual void Update(const vec2& force) = 0;
 
 		virtual void ApplyForce(const vec2& force) = 0;
 
@@ -18,6 +17,6 @@ namespace kiko
 		float m_damping = 0;
 
 		// Inherited via Component
-		virtual void Update(float dt) override;
+		//virtual void Update(float dt) override;
 	};
 }

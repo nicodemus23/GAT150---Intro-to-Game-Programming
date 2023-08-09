@@ -1,11 +1,15 @@
 #include "Player.h"
-#include "Input/InputSystem.h"
-#include "Renderer/Renderer.h"
 #include "Weapon.h"
-#include "Framework/Scene.h"
 #include "SpaceGame.h"
-#include "Framework/SpriteComponent.h"
+
+#include "Input/InputSystem.h"
+
 #include "Renderer/Texture.h"
+#include "Renderer/Renderer.h"
+
+#include "Framework/Scene.h"
+#include "Framework/SpriteComponent.h"
+#include "Framework/Components/PhysicsComponent.h"
 #include "Framework/Resource/ResourceManager.h"
 
 
@@ -23,9 +27,12 @@ void Player::Update(float dt)
 
 	float thrust = 0;
 	if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_W)) thrust = 1;
-
 	kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(m_transform.rotation);
-	m_transform.position += forward * m_speed * thrust * kiko::g_time.GetDeltaTime();
+
+	auto physicsComponent = GetComponent<kiko::PhysicsComponent>();
+	physicsComponent->ApplyForce(forward * m_speed * thrust);
+
+	//m_transform.position += forward * m_speed * thrust * kiko::g_time.GetDeltaTime();
 	m_transform.position.x = kiko::Wrap(m_transform.position.x, (float)kiko::g_renderer.GetWidth());
 	m_transform.position.y = kiko::Wrap(m_transform.position.y, (float)kiko::g_renderer.GetHeight());
 
@@ -34,31 +41,30 @@ void Player::Update(float dt)
 	 !kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
 	{
 		// create weapon
-		kiko::Transform transform1{m_transform.position, m_transform.rotation, + kiko::DegreesToRadians};
-		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(500.0f, m_transform1);
+		kiko::Transform transform1{m_transform.position, m_transform.rotation + kiko::DegreesToRadians(10.0f), 1};
+		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(500.0f, transform1);
 		weapon->m_tag = "Player"; // player weapon
-		m_scene->Add(std::move(weapon));
 
+		
 		std::unique_ptr<kiko::SpriteComponent> component = std::make_unique<kiko::SpriteComponent>();
-		component->m_texture = kiko::g_resources.Get<kiko::Texture>("AngryNerds.jpg", kiko::g_renderer);
-		player->AddComponent(std::move(component));
+		component->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+		weapon->AddComponent(std::move(component));
 
-
-
-
-		kiko::Transform transform2{m_transform.position, m_transform.rotation, 1};
-		std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(500.0f, m_transform);
-		weapon->m_tag = "Player"; // player weapon
 		m_scene->Add(std::move(weapon));
 
 
+		kiko::Transform transform2{ m_transform.position, m_transform.rotation - kiko::DegreesToRadians(10.0f), 1 };
+		weapon = std::make_unique<Weapon>(400.0f, transform2);
+		weapon->m_tag = "Player"; // player weapon
+
+		m_scene->Add(std::move(weapon));
 
 		// add weapon sound here:
 
 	}
-	//if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_T)) kiko::g_time.SetTimeScale(0.5f);
-	//else kiko::g_time.SetTimeScale(1.0f);
 
+	if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_T)) kiko::g_time.SetTimeScale(0.5f);
+	else kiko::g_time.SetTimeScale(1.0f);
 
 }
 

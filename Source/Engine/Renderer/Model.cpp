@@ -1,8 +1,15 @@
 #include "Model.h"
+#include "Renderer.h"
 #include <sstream>
 
 namespace kiko
 {
+	bool Model::Create(std::string filename, ...)
+	{
+
+		return Load(filename);
+	}
+
 	bool Model::Load(const std::string& filename)
 	{
 		std::string buffer;
@@ -28,15 +35,7 @@ namespace kiko
 			m_points.push_back(point);
 		}
 
-
 		return true;
-	}
-
-
-	bool Model::Create(std::string filename, ...)
-	{
-
-		return Load(filename);
 	}
 
 
