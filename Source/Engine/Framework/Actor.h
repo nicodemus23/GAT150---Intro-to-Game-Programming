@@ -31,7 +31,6 @@ namespace kiko
 
 		// scene
 		class Scene* m_scene = nullptr;
-		// lets this class see your "privates" 
 		friend class Scene;
 
 		// game
