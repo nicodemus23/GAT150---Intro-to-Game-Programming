@@ -1,5 +1,5 @@
 #pragma once
-#include "Framework/Resource.h"
+#include "Framework/Resource/Resource.h"
 #include <map>
 #include <memory>
 #include <string>

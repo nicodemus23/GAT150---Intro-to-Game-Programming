@@ -1,17 +1,27 @@
 #pragma once
+#include "Object.h"
 #include "Actor.h"
 #include "Emitter.h"
 #include "Game.h"
 #include "Scene.h"
 
 #include "Components/Component.h"
-#include "RenderComponent.h"
-#include "Framework/Components/PhysicsComponent.h"
-#include "SpriteComponent.h"
-#include "Framework/Components/ModelRenderComponent.h"
-#include "Framework/Components/PhysicsComponent.h"
 
-#include "Framework/Resource.h"
+#include "Framework/Components/RenderComponent.h"
+#include "Framework/Components/SpriteComponent.h"
+#include "Framework/Components/ModelRenderComponent.h"
+
+#include "Framework/Components/PhysicsComponent.h"
+#include "Framework/Components/EnginePhysicsComponent.h"
+
+#include "Framework/Components/CircleCollisionComponent.h"
+#include "Framework/Components/CollisionComponent.h"
+
+
+#include "Renderer/Texture.h"
+#include "Framework/Scene.h"
+
+#include "Framework/Resource/Resource.h"
 #include "Resource/ResourceManager.h"
 
 

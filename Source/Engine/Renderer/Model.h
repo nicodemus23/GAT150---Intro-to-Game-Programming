@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Core.h"
-#include "Framework/Resource.h"
+#include "Framework/Resource/Resource.h"
 #include <vector>
 
 namespace kiko

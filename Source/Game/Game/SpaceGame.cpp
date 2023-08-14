@@ -10,11 +10,14 @@
 
 #include "Framework/Scene.h"
 #include "Framework/Resource/ResourceManager.h"
-#include "Framework/Resource.h"
-#include "Framework/SpriteComponent.h"
+#include "Framework/Resource/Resource.h"
+#include "Framework/Components/SpriteComponent.h"
+#include "Framework/Components/CollisionComponent.h"
 #include "Framework/Components/EnginePhysicsComponent.h"
+#include "Framework/Components/ModelRenderComponent.h"
 
 #include <cmath>
+#include <Framework/Components/CircleCollisionComponent.h>
 
 bool SpaceGame::Initialize()
 {
@@ -71,7 +74,6 @@ void SpaceGame::Update(float dt)
 		//float easedT = t < 0.5f ? 2.0f * t * t : 1.0f - std::pow(-2.0f * t + 2.0f, 2.0f) * 0.5f;
 		//m_titleAlpha = easedT * 255.0f;
 
-
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE))
 		{
 			m_state = eState::StartGame;
@@ -99,16 +101,23 @@ void SpaceGame::Update(float dt)
 
 			// CREATE COMPONENTS //
 
-			// sprite component
+			// sprite component //
 			auto renderComponent = std::make_unique<kiko::SpriteComponent>();
 			renderComponent->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
 			player->AddComponent(std::move(renderComponent));
 
+			// physics component //
 			auto physicsComponent = std::make_unique<kiko::EnginePhysicsComponent>();
 			physicsComponent->m_damping = 0.9f;
 			player->AddComponent(std::move(physicsComponent));
 
+			// collision component //
+			auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
+			collisionComponent->m_radius = 30.0f;
+			player->AddComponent(std::move(collisionComponent));
 
+			// initialize player //
+			player->Initialize(); // doing Initialize() operation before move because the unique pointer is no longer valid once moved
 			m_scene->Add(std::move(player));
 
 		}
@@ -118,19 +127,26 @@ void SpaceGame::Update(float dt)
 		m_gameTimer += dt;
 		m_spawnTimer += dt;
 		if (m_spawnTimer >= m_spawnTime)
-		{	// ENEMY //
+		{	
+			//  CREATE ENEMY //
 			m_spawnTimer = 0;
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 6});
+			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 1});
 			enemy->m_tag = "Enemy";
 			enemy->m_game = this;
 
-			std::unique_ptr<kiko::SpriteComponent> component = std::make_unique<kiko::SpriteComponent>();
+			auto renderComponent = std::make_unique<kiko::SpriteComponent>();
+			renderComponent->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+			enemy->AddComponent(std::move(renderComponent));
 
-			//put in enemy png
-			component->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
-			enemy->AddComponent(std::move(component));
+			auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
+			collisionComponent->m_radius = 30.0f;
+			enemy->AddComponent(std::move(collisionComponent));
 
+			enemy->Initialize();
 			m_scene->Add(std::move(enemy));
+
+
+			// add weapons here
 		}
 		break;
 

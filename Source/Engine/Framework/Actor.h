@@ -1,4 +1,5 @@
 #pragma once
+#include "Object.h"
 #include "Core/Core.h"
 #include "Renderer/Model.h"
 #include "Components/Component.h"
@@ -7,7 +8,7 @@
 
 namespace kiko
 {
-	class Actor
+	class Actor : public Object
 
 	{
 	public:
@@ -16,22 +17,22 @@ namespace kiko
 			m_transform{ transform }
 		{}
 
+		virtual bool Initialize() override;
+		virtual void OnDestroy() override;
+
 		virtual void Update(float dt);
 		virtual void Draw(kiko::Renderer& renderer);
 
+		// issues here //
 		void AddComponent(std::unique_ptr<Component> component);
 		template<typename T>
 		T* GetComponent();
 
 		float GetRadius() { return 30.0f; }
-		virtual void OnCollision(Actor* other) {} // {} is a dummy function so it doesn't get implemented 
-
-	//	void AddForce(const vec2& force) { m_velocity += force; }
-	//	void SetDamping(float damping) { m_damping = damping; }
+		virtual void OnCollision(Actor* other) {} 
 
 		// scene
 		class Scene* m_scene = nullptr;
-		// lets this class see your "privates" 
 		friend class Scene;
 
 		// game

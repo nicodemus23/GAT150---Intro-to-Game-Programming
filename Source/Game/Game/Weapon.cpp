@@ -1,6 +1,25 @@
 #include "Weapon.h"
 #include "Renderer/Renderer.h"
+#include "Framework/Framework.h"
 
+
+bool Weapon::Initialize()
+{
+	Actor::Initialize();
+
+	auto collisionComponent = GetComponent < kiko::CollisionComponent>();
+	if (collisionComponent)
+	{
+		auto renderComponent = GetComponent<kiko::RenderComponent>();
+		if (renderComponent)
+		{
+			float scale = m_transform.scale;
+			collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
+		}
+	}
+
+	return true;
+}
 
 void Weapon::Update(float dt)
 {
@@ -13,11 +32,15 @@ void Weapon::Update(float dt)
 }
 
 void Weapon::OnCollision(Actor* other)
-{  // if we collide with something, just say it's destroyed 
-	if (other->m_tag != m_tag) // if the weapon's tag is NOT equal to my tag, destroy ourselves // we were hit 
+{  
+	if (other->m_tag != m_tag)//*
 	{
 		m_destroyed = true;
 	}
 }
+
+
+// if we collide with something, just say it's destroyed 
+//if (other->m_tag != m_tag) // if the weapon's tag is NOT equal to my tag, destroy ourselves // we were hit 
 
 

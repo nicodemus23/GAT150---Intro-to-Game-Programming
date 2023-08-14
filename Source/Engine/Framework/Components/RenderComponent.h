@@ -1,5 +1,5 @@
 #pragma once
-#include "Components/Component.h"
+#include "Framework/Components/Component.h"
 
 namespace kiko
 {
@@ -7,9 +7,12 @@ namespace kiko
 	{
 	public:
 		virtual void Draw(class Renderer& renderer) = 0;
+		virtual float GetRadius() { return 0; } //*
 
 	private: // 
 	};
 
 
 }
+
+// virtual float GetRadius() { return 0; } //* Pure virtual would end with {}

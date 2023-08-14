@@ -1,16 +1,17 @@
 #pragma once
-
+#include "Framework/Object.h"
 
 namespace kiko
 {
-	class Component
+	class Component : public Object
 	{
 	public:
 		virtual void Update(float dt) = 0;
 
 		friend class Actor;
-	
-	protected:
+
+		Actor* GetOwner() { return m_owner; }
+	public:
 		class Actor* m_owner = nullptr; // declaring class without .h in header is a forward declaration
 	};
 

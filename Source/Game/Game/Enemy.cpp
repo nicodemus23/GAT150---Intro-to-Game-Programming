@@ -1,14 +1,41 @@
 #include "Enemy.h"
 #include "Player.h"
-#include "Framework/Scene.h"
-#include "Framework/Emitter.h"
-#include "Renderer/Renderer.h"
 #include "SpaceGame.h"
+#include "Framework/Framework.h"
+#include "Renderer/Renderer.h"
 
+
+bool Enemy::Initialize()
+{
+	Actor::Initialize();
+
+	auto collisionComponent = GetComponent < kiko::CollisionComponent>();
+	if (collisionComponent)
+	{
+		auto renderComponent = GetComponent<kiko::RenderComponent>();
+		if (renderComponent)
+		{
+			float scale = m_transform.scale;
+			collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
+		}
+	}
+	return true;
+}
 
 void Enemy::Update(float dt)
 {
 	Actor::Update(dt);
+
+	auto collisionComponent = GetComponent < kiko::CollisionComponent>();
+	if (collisionComponent)
+	{
+		auto renderComponent = GetComponent<kiko::RenderComponent>();
+		if (renderComponent)
+		{
+			float scale = m_transform.scale;
+			collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
+		}
+	}
 
 	kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(m_transform.rotation);
 	Player* player = m_scene->GetActor<Player>();
