@@ -115,12 +115,42 @@ void print(const std::string& s, const T& container)
 
 int main(int argc, char* argv[])
 {
-	INFO_LOG("Initialize Engine, yo...")
 
+
+	INFO_LOG("Initialize Engine, yo...")
 
 	kiko::MemoryTracker::Initialize();
 	kiko::seedRandom((unsigned int)time(nullptr));
 	kiko::setFilePath("assets");
+
+	rapidjson::Document document;
+	kiko::Json::Load("json.txt", document);
+
+	int i1;
+	kiko::Json::Read(document, "integer1", i1);
+	std::cout << i1 << std::endl;
+	
+	int i2;
+	kiko::Json::Read(document, "integer2", i2);
+	std::cout << i2 << std::endl;
+
+	std::string str;
+	kiko::Json::Read(document, "string", str);
+	std::cout << str << std::endl;
+
+	bool b;
+	kiko::Json::Read(document, "boolean", b);
+	std::cout << b << std::endl;
+
+	float f;
+	kiko::Json::Read(document, "float", f);
+	std::cout << f << std::endl;
+
+	kiko::vec2 v2;
+	kiko::Json::Read(document, "vector2", v2);
+	std::cout << v2 << std::endl;
+
+
 
 	// Initialize Game Engine // 
 	kiko::g_renderer.Initialize();
@@ -142,7 +172,7 @@ int main(int argc, char* argv[])
 	// create texture
 	//shared_ptr<kiko::Texture> texture1 = make_shared<kiko::Texture>();
 	//shared_ptr<kiko::Texture> texture2 = make_shared<kiko::Texture>();
-	kiko::res_t<kiko::Texture> texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+	kiko::res_t<kiko::Texture> texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
 
 	//texture1->Load("AngryNerds.jpg", kiko::g_renderer);
 	//texture2->Load("COMING SOON!.png", kiko::g_renderer);

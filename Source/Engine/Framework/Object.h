@@ -1,5 +1,25 @@
 #pragma once
+#include "Factory.h"
+#include "Core/Json.h"
 #include <string>
+
+//MACRO
+// for headers
+#define CLASS_DECLARATION(classname) \
+	virtual const char* GetClassName() {return #classname;} \
+	bool Read(const rapidjson::Value& value); \
+class Register \
+{ \
+public: \
+	Register() \
+{ \
+	Factory::Instance().Register<classname>(#classname); \
+} \
+};\
+
+// for source code 
+#define CLASS_DEFINITION(classname) \
+	classname::Register register_class;
 
 
 namespace kiko
@@ -9,15 +29,18 @@ namespace kiko
 	{
 	public:
 		Object() = default;
-		Object(const std::string& name) : m_name{ name } {};
+		Object(const std::string& name) : name{ name } {}
 		virtual ~Object() { OnDestroy(); } // destructor 
 
+		CLASS_DECLARATION(Object);
+
 		virtual bool Initialize() { return true; } //*
-		virtual void OnDestroy() {} 
+		virtual void OnDestroy() { ; }
+
 
 
 	protected:
-		std::string m_name;
+		std::string name;
 
 	};
 
@@ -25,3 +48,5 @@ namespace kiko
 
 // virtual = when you know you want to override the values
 		// {} in these avoids setting it equal to anything and leaves it open
+
+//Factory::Instance().Register<classname>(#classname);	\ //* Putting a # in front of a MACRO automatically puts quotes "" around it. See SpriteRenderComponent 

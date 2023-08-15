@@ -1,15 +1,20 @@
 #include "EnginePhysicsComponent.h"
 #include "FrameworK/Actor.h"
 
-
-void kiko::EnginePhysicsComponent::Update(float dt)
+namespace kiko
 {
-	m_owner->m_transform.position += m_velocity * dt;
-	m_velocity *= std::pow(1.0f - m_damping, dt);
+	CLASS_DEFINITION(EnginePhysicsComponent)
+
+	void kiko::EnginePhysicsComponent::Update(float dt)
+	{
+		m_owner->m_transform.position += m_velocity * dt;
+		m_velocity *= std::pow(1.0f - m_damping, dt);
+	}
+
+	void kiko::EnginePhysicsComponent::ApplyForce(const vec2& force)
+	{
+		m_velocity += force;
+
+	}
 }
 
-void kiko::EnginePhysicsComponent::ApplyForce(const vec2& force)
-{
-	m_velocity += force;
-
-}

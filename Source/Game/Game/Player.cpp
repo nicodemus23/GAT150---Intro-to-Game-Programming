@@ -58,8 +58,8 @@ void Player::Update(float dt)
 		weapon->m_tag = "Player"; // player weapon
 
 		// add rocket image // rocket 1
-		auto component = std::make_unique<kiko::SpriteComponent>();
-		component->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+		auto component = std::make_unique<kiko::SpriteRenderComponent>();
+		component->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
 		weapon->AddComponent(std::move(component));
 
 		// rocket collision // rocket 1
@@ -76,8 +76,8 @@ void Player::Update(float dt)
 		weapon->m_tag = "Player"; // player weapon
 
 		// add rocket image //  rocket 2
-		component = std::make_unique<kiko::SpriteComponent>();
-		component->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+		component = std::make_unique<kiko::SpriteRenderComponent>();
+		component->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
 		weapon->AddComponent(std::move(component));
 
 		// rocket collision // rocket 2

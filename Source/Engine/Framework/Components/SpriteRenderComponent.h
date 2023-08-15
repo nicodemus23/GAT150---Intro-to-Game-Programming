@@ -1,23 +1,29 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Renderer/Texture.h"
+#include "Framework/Factory.h"
 
 namespace kiko
 {
-	class SpriteComponent : public RenderComponent //* 
+	class SpriteRenderComponent : public RenderComponent //* 
 	{
 	public:
+		CLASS_DECLARATION(SpriteRenderComponent)
+
 		void Update(float dt) override; //*
 		void Draw(class Renderer& renderer) override;
 
 		virtual float GetRadius() { return m_texture->GetSize().Length() * 0.5f; }//*
+
+		
 
 	public:
 		res_t<Texture> m_texture;
 	};
 }
 
-//	class SpriteComponent : public RenderComponent // specifying something that is inherited that isn's declare as public will default to private
+//NOTES:
+//	class SpriteRenderComponent : public RenderComponent // specifying something that is inherited that isn's declare as public will default to private
 
 //		void Update(float dt) override; // virtual at the beginning would make it so Sprite could override this component
 

@@ -1,8 +1,10 @@
 #include "Actor.h"
-#include "Framework/Components/RenderComponent.h"
+#include "Components/RenderComponent.h"
 
 namespace kiko
 {
+	CLASS_DEFINITION(Actor)
+
 	bool Actor::Initialize()
 	{
 		for (auto& component : m_components)
@@ -58,6 +60,11 @@ namespace kiko
 	{
 		component->m_owner = this; // pointer to an actor 
 		m_components.push_back(std::move(component));
+	}
+
+	bool Actor::Read(const rapidjson::Value& value)
+	{
+		return true;
 	}
 
 }

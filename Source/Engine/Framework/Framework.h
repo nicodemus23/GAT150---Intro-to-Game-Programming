@@ -8,7 +8,7 @@
 #include "Components/Component.h"
 
 #include "Framework/Components/RenderComponent.h"
-#include "Framework/Components/SpriteComponent.h"
+#include "Framework/Components/SpriteRenderComponent.h"
 #include "Framework/Components/ModelRenderComponent.h"
 
 #include "Framework/Components/PhysicsComponent.h"
@@ -23,5 +23,8 @@
 
 #include "Framework/Resource/Resource.h"
 #include "Resource/ResourceManager.h"
+
+#include "Framework/Object.h"
+#include "Factory.h"
 
 

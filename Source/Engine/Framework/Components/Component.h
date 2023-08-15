@@ -10,7 +10,6 @@ namespace kiko
 
 		friend class Actor;
 
-		Actor* GetOwner() { return m_owner; }
 	public:
 		class Actor* m_owner = nullptr; // declaring class without .h in header is a forward declaration
 	};

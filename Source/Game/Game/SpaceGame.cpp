@@ -11,24 +11,20 @@
 #include "Framework/Scene.h"
 #include "Framework/Resource/ResourceManager.h"
 #include "Framework/Resource/Resource.h"
-#include "Framework/Components/SpriteComponent.h"
-#include "Framework/Components/CollisionComponent.h"
-#include "Framework/Components/EnginePhysicsComponent.h"
-#include "Framework/Components/ModelRenderComponent.h"
+#include "Framework/Framework.h"
+#include "Framework/Factory.h"
 
 #include <cmath>
-#include <Framework/Components/CircleCollisionComponent.h>
 
 bool SpaceGame::Initialize()
 {
-	
 
 	// CREATE FONT AND TEXT OBJECTS // shared pointer used so multiple assets can use it. 
-	
-	m_font = kiko::g_resources.Get<kiko::Font>("arcade.ttf", 100);
+	m_font = GET_RESOURCE(kiko::Font, "arcade.ttf", 100);
+	//m_font = kiko::ResourceManager::Instance().Get<kiko::Font>("arcade.ttf", 100); // do I still need this? 
 	//std::make_shared<kiko::Font>("arcade.ttf", 100);
-	m_scoreFont = std::make_shared<kiko::Font>("arcade.ttf", 50);
-	m_timerFont = std::make_shared<kiko::Font>("arcade.ttf", 50);
+	m_scoreFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
+	m_timerFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
 	
 
 	m_scoreText = std::make_unique<kiko::Text>(m_scoreFont);
@@ -102,17 +98,19 @@ void SpaceGame::Update(float dt)
 			// CREATE COMPONENTS //
 
 			// sprite component //
-			auto renderComponent = std::make_unique<kiko::SpriteComponent>();
-			renderComponent->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+			
+			// for Factory.h //
+			auto renderComponent = CREATE_CLASS(SpriteRenderComponent)
+			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
 			player->AddComponent(std::move(renderComponent));
 
 			// physics component //
-			auto physicsComponent = std::make_unique<kiko::EnginePhysicsComponent>();
+			auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent)
 			physicsComponent->m_damping = 0.9f;
 			player->AddComponent(std::move(physicsComponent));
 
 			// collision component //
-			auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
+			auto collisionComponent = CREATE_CLASS(CircleCollisionComponent)
 			collisionComponent->m_radius = 30.0f;
 			player->AddComponent(std::move(collisionComponent));
 
@@ -134,8 +132,8 @@ void SpaceGame::Update(float dt)
 			enemy->m_tag = "Enemy";
 			enemy->m_game = this;
 
-			auto renderComponent = std::make_unique<kiko::SpriteComponent>();
-			renderComponent->m_texture = kiko::g_resources.Get<kiko::Texture>("test.png", kiko::g_renderer);
+			auto renderComponent = std::make_unique<kiko::SpriteRenderComponent>();
+			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
 			enemy->AddComponent(std::move(renderComponent));
 
 			auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
