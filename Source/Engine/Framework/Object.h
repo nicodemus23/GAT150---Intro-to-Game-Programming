@@ -7,15 +7,15 @@
 // for headers
 #define CLASS_DECLARATION(classname) \
 	virtual const char* GetClassName() {return #classname;} \
-	bool Read(const rapidjson::Value& value); \
-class Register \
-{ \
-public: \
-	Register() \
-{ \
-	Factory::Instance().Register<classname>(#classname); \
-} \
-};\
+	virtual void Read(const json_t& value); \
+	class Register \
+		{ \
+	public: \
+		Register() \
+		{ \
+			Factory::Instance().Register<classname>(#classname); \
+			} \
+			};\
 
 // for source code 
 #define CLASS_DEFINITION(classname) \
@@ -36,6 +36,7 @@ namespace kiko
 
 		virtual bool Initialize() { return true; } //*
 		virtual void OnDestroy() { ; }
+
 
 
 

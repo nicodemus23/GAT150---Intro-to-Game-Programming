@@ -7,7 +7,7 @@ namespace kiko
 
 	bool Actor::Initialize()
 	{
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			component->Initialize();
 		}
@@ -17,7 +17,7 @@ namespace kiko
 
 	void Actor::OnDestroy()
 	{
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			component->Initialize();
 		}
@@ -26,17 +26,17 @@ namespace kiko
 	/////////////////////////////////////////////////
 	void Actor::Update(float dt)
 	{
-		if (m_lifespan != -1.0f)
+		if (lifespan != -1.0f)
 		{
 
 			{
-				m_lifespan -= dt;
-				m_destroyed = (m_lifespan <= 0);
+				lifespan -= dt;
+				destroyed = (lifespan <= 0);
 			}
 
 
 		}
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			component->Update(dt);
 		}
@@ -44,8 +44,8 @@ namespace kiko
 	}
 	void Actor::Draw(kiko::Renderer& renderer)
 	{
-		//if (m_model) m_model->Draw(renderer, m_transform);
-		for (auto& component : m_components) // auto so you don't have to think about how many components there will be // & because we're not making a new one - just referencing 
+		//if (m_model) m_model->Draw(renderer, transform);
+		for (auto& component : components) // auto so you don't have to think about how many components there will be // & because we're not making a new one - just referencing 
 		{
 			RenderComponent* renderComponent = dynamic_cast<RenderComponent*>(component.get());
 
@@ -59,12 +59,39 @@ namespace kiko
 	void Actor::AddComponent(std::unique_ptr<Component> component)
 	{
 		component->m_owner = this; // pointer to an actor 
-		m_components.push_back(std::move(component));
+		components.push_back(std::move(component));
 	}
 
-	bool Actor::Read(const rapidjson::Value& value)
+	void Actor::Read(const rapidjson::Value& value)
 	{
-		return true;
+		Object::Read(value);
+
+		READ_DATA(value, tag);
+		READ_DATA(value, lifespan);
+
+		transform.Read(value);
+
+		if (HAS_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
+
+		if (HAS_DATA(value, components) && GET_DATA(value, components).IsArray())
+		{
+			   // auto& = reference to the value, not copy
+				for (auto& componentValue : GET_DATA(value, components).GetArray())
+				{
+				std:: string type;
+
+				READ_DATA(componentValue, type);
+
+				auto component = CREATE_CLASS_BASE(Component, type);
+				component->Read(componentValue);
+
+				AddComponent(std::move(component));
+
+				}
+			
+		}
+		
+
 	}
 
 }

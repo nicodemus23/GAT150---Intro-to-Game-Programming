@@ -6,7 +6,8 @@
 #include <memory>
 #include <string>
 
-#define CREATE_CLASS(classname) kiko::Factory::Instance().Create<kiko::classname>(#classname);
+#define CREATE_CLASS(classname) kiko::Factory::Instance().Create<kiko::classname>(#classname); 
+#define CREATE_CLASS_BASE(classbase, classname) kiko::Factory::Instance().Create<kiko::classbase>(classname); // actual string without #
 
 namespace kiko
 {

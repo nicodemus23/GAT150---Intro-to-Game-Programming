@@ -31,7 +31,7 @@ namespace kiko
 	// GetInt()
 	bool Json::Read(const rapidjson::Value& value, const std::string& name, int& data, bool required)
 	{
-		if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsInt())
+		if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsNumber())
 		{
 			if (required) ERROR_LOG("Cannot read required json data: " << name.c_str());
 			return false;

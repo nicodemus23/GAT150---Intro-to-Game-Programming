@@ -1,46 +1,55 @@
 #include "Weapon.h"
+#include "Core/Json.h"
+#include "Framework/Actor.h"
 #include "Renderer/Renderer.h"
 #include "Framework/Framework.h"
 
-
-bool Weapon::Initialize()
+namespace kiko
 {
-	Actor::Initialize();
-
-	auto collisionComponent = GetComponent < kiko::CollisionComponent>();
-	if (collisionComponent)
+	bool Weapon::Initialize()
 	{
-		auto renderComponent = GetComponent<kiko::RenderComponent>();
-		if (renderComponent)
+
+		auto collisionComponent = GetComponent < kiko::CollisionComponent>();
+		if (collisionComponent)
 		{
-			float scale = m_transform.scale;
-			collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
+			auto renderComponent = GetComponent<kiko::RenderComponent>();
+			if (renderComponent)
+			{
+				float scale = transform.scale;
+				collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
+			}
+		}
+
+		return true;
+	}
+
+	void Weapon::Update(float dt)
+	{
+
+		kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation);
+		transform.position += forward * speed * kiko::g_time.GetDeltaTime();
+		transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
+		transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
+	}
+
+	void Weapon::OnCollision(Actor* other)
+	{
+		if (other->tag != tag)//*
+		{
+			destroyed = true;
 		}
 	}
 
-	return true;
-}
-
-void Weapon::Update(float dt)
-{
-	Actor::Update(dt);
-
-	kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(m_transform.rotation);
-	m_transform.position += forward * m_speed * kiko::g_time.GetDeltaTime();
-	m_transform.position.x = kiko::Wrap(m_transform.position.x, (float)kiko::g_renderer.GetWidth());
-	m_transform.position.y = kiko::Wrap(m_transform.position.y, (float)kiko::g_renderer.GetHeight());
-}
-
-void Weapon::OnCollision(Actor* other)
-{  
-	if (other->m_tag != m_tag)//*
+	// **was const json_t& other - not sure if that was a mistake **
+	void Weapon::Read(const json_t& value)
 	{
-		m_destroyed = true;
+		READ_DATA(value, speed);
 	}
 }
 
 
+
 // if we collide with something, just say it's destroyed 
-//if (other->m_tag != m_tag) // if the weapon's tag is NOT equal to my tag, destroy ourselves // we were hit 
+//if (other->tag != tag) // if the Weapon's tag is NOT equal to my tag, destroy ourselves // we were hit 
 
 

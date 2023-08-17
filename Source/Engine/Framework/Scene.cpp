@@ -4,6 +4,11 @@
 
 namespace kiko
 {
+	bool Scene::Initialize()
+	{
+		for (auto& actor : m_actors) actor->Initialize();
+		return true;
+	}
 	void Scene::Update(float dt)
 	{
 
@@ -15,7 +20,7 @@ namespace kiko
 		{
 			(*iter)->Update(dt);
 			// if actor is destroyed, erase, else just go to the next one (++iter)
-			((*iter)->m_destroyed) ? iter = m_actors.erase(iter) : iter++;
+			((*iter)->destroyed) ? iter = m_actors.erase(iter) : iter++;
 		}
 
 		// check collisions //
@@ -30,9 +35,9 @@ namespace kiko
 				if (collision1 == nullptr || collision2 == nullptr) continue;
 
 				if (collision1->CheckCollision(collision2))
-				{	
+				{
 					(*iter1)->OnCollision(iter2->get()); //*
-					(*iter2)->OnCollision(iter1->get()); 
+					(*iter2)->OnCollision(iter1->get());
 				}
 			}
 		}
@@ -45,7 +50,6 @@ namespace kiko
 		for (auto& actor : m_actors) actor->Draw(renderer);
 	}
 
-
 	void Scene::Add(std::unique_ptr<Actor> actor)
 	{
 		actor->m_scene = this;
@@ -57,12 +61,44 @@ namespace kiko
 	{
 		m_actors.clear();
 	}
+	bool Scene::Load(const std::string& filename)
+	{	// Should this be !Json?? It wasn't but I got the error message every time. 
+		rapidjson::Document document;
+		if (!Json::Load(filename, document))
+		{
+			ERROR_LOG("Could not load scene file: " << filename);
+			return false; // if fails return false
+		}
+		Read(document);
+
+		return true;
+	}
+	void Scene::Read(const json_t& value)
+	{
+		if (HAS_DATA(value, actors) && GET_DATA(value, actors).IsArray())
+		{
+			// auto& = reference to the value, not copy
+			for (auto& actorValue : GET_DATA(value, actors).GetArray())
+			{
+				std::string type;
+
+				READ_DATA(actorValue, type);
+
+				auto actor = CREATE_CLASS_BASE(Actor, type);
+				actor->Read(actorValue);
+
+				// add to scene list
+				Add(std::move(actor));
+
+			}
+		}
+	}
 }
 
 
 //NOTES:
 //// get the distance between these two objects (iter1 and iter2) *the distance is the sum of two radii
-//float distance = (*iter1)->m_transform.position.Distance((*iter2)->m_transform.position);
+//float distance = (*iter1)->transform.position.Distance((*iter2)->transform.position);
 //// get the radii of these two objects 
 //float radius = (*iter1)->GetRadius() + (*iter2)->GetRadius(); // GetRadius() comes from Actor.h 
 

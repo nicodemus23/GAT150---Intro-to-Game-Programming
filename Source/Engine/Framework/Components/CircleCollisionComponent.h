@@ -11,11 +11,8 @@ namespace kiko
 		CLASS_DECLARATION(CircleCollisionComponent)
 
 		virtual void Update(float dt) override;
-
-		// this is already in CollisionComponent.h ???? Ask Maple
 		virtual bool CheckCollision(CollisionComponent* collision) override;
 
-		//virtual bool CheckCollision(CollisionComponent);
 
 	};
 }

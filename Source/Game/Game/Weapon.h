@@ -1,23 +1,28 @@
 #pragma once
 #include "Framework/Actor.h"
+#include "Framework/Object.h"
 
-
-class Weapon : public kiko::Actor
+namespace kiko
 {
-public:
-	Weapon(float speed, const kiko::Transform& transform) :
-		Actor{ transform},
-		m_speed{ speed }
-		{ 
-			m_lifespan = 2.0f; 
-		}
-	bool Initialize() override;
-	void Update(float dt) override;
-	void OnCollision(Actor* other) override;
+	class Weapon : public Actor
+	{
+	public:
+		/*WeaponComponent(float speed, const kiko::Transform& transform) :
+			Actor{ transform},
+			speed{ speed }
+			{
+				lifespan = 2.0f;
+			}*/
+		bool Initialize() override;
+		void Update(float dt) override;
+		void OnCollision(Actor* other) ;
+		void Read(const json_t& value);
 
-private:
-	float m_speed = 0;
-	
-};
+	private:
+		float speed = 0;
 
-//decrement time, fire weapon, reset time 
+	};
+}
+
+
+//decrement time, fire WeaponComponent, reset time 

@@ -1,2 +1,12 @@
-INFO: Main.cpp(120)
+INFO: Factory.h(56)
+Class Registered: SpriteRenderComponent
+INFO: Factory.h(56)
+Class Registered: ModelRenderComponent
+INFO: Factory.h(56)
+Class Registered: EnginePhysicsComponent
+INFO: Factory.h(56)
+Class Registered: CircleCollisionComponent
+INFO: Factory.h(56)
+Class Registered: Actor
+INFO: Main.cpp(121)
 Initialize Engine, yo...

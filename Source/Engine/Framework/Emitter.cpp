@@ -43,7 +43,7 @@ namespace kiko
 			ParticleData data;
 			data.lifetime = randomf(m_data.lifetimeMin, m_data.lifetimeMax);
 			data.lifetimer = 0.0f;
-			data.position = m_transform.position;
+			data.position = transform.position;
 			data.prevPosition = data.position;
 			data.color = Color
 			{
@@ -53,7 +53,7 @@ namespace kiko
 				static_cast<float>(random(10)) // Alpha value set to 255 for fully opaque particles (you can adjust as needed)
 			};
 
-			float angle = m_transform.rotation + m_data.angle + randomf(-m_data.angleRange, m_data.angleRange);
+			float angle = transform.rotation + m_data.angle + randomf(-m_data.angleRange, m_data.angleRange);
 			vec2 direction = vec2{ 0, -1 }.Rotate(angle);
 			data.velocity = direction * randomf(m_data.speedMin, m_data.speedMax);
 			data.damping = m_data.damping;

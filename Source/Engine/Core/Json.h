@@ -4,8 +4,10 @@
 
 #include <string>
 
-#define READ_DATA(value, data) kiko::Json::Read(value, #data, data);
-#define READ_DATA_REQUIRED(value, data) kiko::Json::Read(value, #data, data, true);
+#define READ_DATA(value, data) kiko::Json::Read(value, #data, data)
+#define READ_DATA_REQUIRED(value, data) kiko::Json::Read(value, #data, data, true)
+#define HAS_DATA(value, data) value.HasMember(#data) // c.str
+#define GET_DATA(value, data) value[#data] // c.str
 
 namespace kiko
 {
@@ -23,4 +25,6 @@ namespace kiko
 
 
 	};
+
+	using json_t = rapidjson::Value;
 }

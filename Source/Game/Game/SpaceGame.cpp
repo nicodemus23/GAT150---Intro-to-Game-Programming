@@ -44,6 +44,8 @@ bool SpaceGame::Initialize()
 
 	// create scene //
 	m_scene = std::make_unique<kiko::Scene>();
+	m_scene->Load("scene.json");
+	m_scene->Initialize();
 
 	return true;
 }
@@ -92,14 +94,13 @@ void SpaceGame::Update(float dt)
 			// CREATE PLAYER //
 
 			std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 6 });
-			player->m_tag = "Player";
+			player->tag = "Player";
 			player->m_game = this;
 
 			// CREATE COMPONENTS //
 
 			// sprite component //
 			
-			// for Factory.h //
 			auto renderComponent = CREATE_CLASS(SpriteRenderComponent)
 			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
 			player->AddComponent(std::move(renderComponent));
@@ -129,7 +130,7 @@ void SpaceGame::Update(float dt)
 			//  CREATE ENEMY //
 			m_spawnTimer = 0;
 			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 1});
-			enemy->m_tag = "Enemy";
+			enemy->tag = "Enemy";
 			enemy->m_game = this;
 
 			auto renderComponent = std::make_unique<kiko::SpriteRenderComponent>();
@@ -144,7 +145,7 @@ void SpaceGame::Update(float dt)
 			m_scene->Add(std::move(enemy));
 
 
-			// add weapons here
+			// add WeaponComponents here
 		}
 		break;
 
@@ -180,6 +181,7 @@ void SpaceGame::Update(float dt)
 
 void SpaceGame::Draw(kiko::Renderer& renderer)
 {
+	m_scene->Draw(renderer);
 	if (m_state == eState::Title)
 	{
 		//m_titleText->Draw(renderer, 100, 200);
@@ -191,5 +193,4 @@ void SpaceGame::Draw(kiko::Renderer& renderer)
 
 	m_timerText->Draw(renderer, 725, 550);
 	m_scoreText->Draw(renderer, 35, 550);
-	m_scene->Draw(renderer);
 }

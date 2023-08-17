@@ -100,6 +100,7 @@ public:
 
 };
 
+// don't need 
 template <typename T>
 void print(const std::string& s, const T& container)
 {
@@ -123,35 +124,7 @@ int main(int argc, char* argv[])
 	kiko::seedRandom((unsigned int)time(nullptr));
 	kiko::setFilePath("assets");
 
-	rapidjson::Document document;
-	kiko::Json::Load("json.txt", document);
-
-	int i1;
-	kiko::Json::Read(document, "integer1", i1);
-	std::cout << i1 << std::endl;
 	
-	int i2;
-	kiko::Json::Read(document, "integer2", i2);
-	std::cout << i2 << std::endl;
-
-	std::string str;
-	kiko::Json::Read(document, "string", str);
-	std::cout << str << std::endl;
-
-	bool b;
-	kiko::Json::Read(document, "boolean", b);
-	std::cout << b << std::endl;
-
-	float f;
-	kiko::Json::Read(document, "float", f);
-	std::cout << f << std::endl;
-
-	kiko::vec2 v2;
-	kiko::Json::Read(document, "vector2", v2);
-	std::cout << v2 << std::endl;
-
-
-
 	// Initialize Game Engine // 
 	kiko::g_renderer.Initialize();
 	kiko::g_renderer.CreateWindow("GAT150", 800, 600);
@@ -244,10 +217,10 @@ int main(int argc, char* argv[])
 
 
 // pass by value (in int main) - makes a copy
-void zero(int v)
-{
-	v = 0;
-}
+//void zero(int v)
+//{
+//	v = 0;
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -349,3 +322,31 @@ ASSERT_LOG(j,  "Pointer is null, yo.")*/
 
 /*cout << ages["jacob"] << endl;
 cout << ages["xane"] << endl;*/
+//
+// rapidjson::Document document;
+//kiko::Json::Load("json.txt", document);
+//
+// 
+//int i1;
+//kiko::Json::Read(document, "integer1", i1);
+//std::cout << i1 << std::endl;
+//
+//int i2;
+//kiko::Json::Read(document, "integer2", i2);
+//std::cout << i2 << std::endl;
+//
+//std::string str;
+//kiko::Json::Read(document, "string", str);
+//std::cout << str << std::endl;
+//
+//bool b;
+//kiko::Json::Read(document, "boolean", b);
+//std::cout << b << std::endl;
+//
+//float f;
+//kiko::Json::Read(document, "float", f);
+//std::cout << f << std::endl;
+//
+//kiko::vec2 v2;
+//kiko::Json::Read(document, "vector2", v2);
+//std::cout << v2 << std::endl;

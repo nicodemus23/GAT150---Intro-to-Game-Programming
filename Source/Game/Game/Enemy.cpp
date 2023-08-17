@@ -15,7 +15,7 @@ bool Enemy::Initialize()
 		auto renderComponent = GetComponent<kiko::RenderComponent>();
 		if (renderComponent)
 		{
-			float scale = m_transform.scale;
+			float scale = transform.scale;
 			collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
 		}
 	}
@@ -32,23 +32,23 @@ void Enemy::Update(float dt)
 		auto renderComponent = GetComponent<kiko::RenderComponent>();
 		if (renderComponent)
 		{
-			float scale = m_transform.scale;
+			float scale = transform.scale;
 			collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
 		}
 	}
 
-	kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(m_transform.rotation);
+	kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation);
 	Player* player = m_scene->GetActor<Player>();
 
 	if (player)
 	{
 
 		Actor::Update(dt);
-		kiko::vec2 direction = player->m_transform.position - m_transform.position;
+		kiko::vec2 direction = player->transform.position - transform.position;
 		
 		// follow player 1
 		float turnAngle = kiko::vec2::SignedAngle(forward, direction.Normalized());
-		m_transform.rotation += turnAngle * dt;
+		transform.rotation += turnAngle * dt;
 
 
 		// check for player in sight 
@@ -58,19 +58,19 @@ void Enemy::Update(float dt)
 	}
 
 	
-	m_transform.position += forward * m_speed * kiko::g_time.GetDeltaTime();
-	m_transform.position.x = kiko::Wrap(m_transform.position.x, (float)kiko::g_renderer.GetWidth());
-	m_transform.position.y = kiko::Wrap(m_transform.position.y, (float)kiko::g_renderer.GetHeight());
+	transform.position += forward * speed * kiko::g_time.GetDeltaTime();
+	transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
+	transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
 
 
 }
 
 void Enemy::OnCollision(Actor* other)
 {	
-	if (other->m_tag == "Player")
+	if (other->tag == "Player")
 	{
 		m_game->AddPoints(100);
-		m_destroyed = true;
+		destroyed = true;
 
 		// create explosion
 		kiko::EmitterData data;
@@ -87,9 +87,9 @@ void Enemy::OnCollision(Actor* other)
 
 		data.color = kiko::Color{ 1, 1, 1, 1 };
 
-		kiko::Transform transform{ m_transform.position, 0, 1};
+		kiko::Transform transform{ transform.position, 0, 1};
 		auto emitter = std::make_unique<kiko::Emitter>(transform, data);
-		emitter->m_lifespan = 0.1f;
+		emitter->lifespan = 0.1f;
 		m_scene->Add(std::move(emitter));
 	}
 

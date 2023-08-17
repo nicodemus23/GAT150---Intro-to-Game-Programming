@@ -14,6 +14,7 @@ namespace kiko
 	public:
 		Scene() = default;
 
+		bool Initialize();
 		void Update(float dt);
 		void Draw(Renderer& renderer);
 
@@ -23,6 +24,10 @@ namespace kiko
 
 		// clears the scene:
 		void RemoveAll();
+
+		bool Load(const std::string& filename); // bool can fail - good for when you want to add an ERROR_LOG
+		void Read(const json_t& value);
+
 
 		template<typename T>
 		T* GetActor();
