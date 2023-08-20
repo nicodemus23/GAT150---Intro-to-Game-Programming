@@ -46,7 +46,7 @@ void Enemy::Update(float dt)
 		Actor::Update(dt);
 		kiko::vec2 direction = player->transform.position - transform.position;
 		
-		// follow player 1
+		// turn towards player
 		float turnAngle = kiko::vec2::SignedAngle(forward, direction.Normalized());
 		transform.rotation += turnAngle * dt;
 
@@ -82,12 +82,12 @@ void Enemy::OnCollision(Actor* other)
 		data.lifetimeMin = 0.5f;
 		data.lifetimeMin = 1.5f;
 		data.speedMin = 50;
-		data.speedMax = 250;
+		data.speedMax = 100;
 		data.damping = 0.5f;
 
 		data.color = kiko::Color{ 1, 1, 1, 1 };
 
-		kiko::Transform transform{ transform.position, 0, 1};
+		kiko::Transform transform{ this->transform.position, 0, 1};
 		auto emitter = std::make_unique<kiko::Emitter>(transform, data);
 		emitter->lifespan = 0.1f;
 		m_scene->Add(std::move(emitter));

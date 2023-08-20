@@ -1,13 +1,14 @@
 #include "Weapon.h"
-#include "Core/Json.h"
-#include "Framework/Actor.h"
 #include "Renderer/Renderer.h"
 #include "Framework/Framework.h"
 
 namespace kiko
 {
+	CLASS_DEFINITION(Weapon)
+
 	bool Weapon::Initialize()
 	{
+		Actor::Initialize();
 
 		auto collisionComponent = GetComponent < kiko::CollisionComponent>();
 		if (collisionComponent)
@@ -16,7 +17,7 @@ namespace kiko
 			if (renderComponent)
 			{
 				float scale = transform.scale;
-				collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
+				collisionComponent->m_radius = renderComponent->GetRadius() * scale * 0.75f;
 			}
 		}
 
@@ -25,6 +26,7 @@ namespace kiko
 
 	void Weapon::Update(float dt)
 	{
+		Actor::Update(dt);
 
 		kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation);
 		transform.position += forward * speed * kiko::g_time.GetDeltaTime();
@@ -40,9 +42,11 @@ namespace kiko
 		}
 	}
 
-	// **was const json_t& other - not sure if that was a mistake **
+	// speed
 	void Weapon::Read(const json_t& value)
 	{
+		Actor::Read(value); // reads in type, name, prototype, tag, lifespan, transform... then speed. 
+
 		READ_DATA(value, speed);
 	}
 }

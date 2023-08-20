@@ -4,6 +4,25 @@
 namespace kiko
 {
 	CLASS_DEFINITION(Actor)
+	// Actor& reference, copy this data (name, tag, etc.)
+	Actor::Actor(const Actor& other)
+	{	// other = copied version
+		name = other.name;
+		tag = other.tag;
+		lifespan = other.lifespan;
+		transform = other.transform;
+		m_scene = other.m_scene;
+		m_game = other.m_game;
+
+		// copy components // 
+		for (auto& component : other.components) 
+		{
+			 
+			//auto cloneComponent = std::unique_ptr<Component>((Component*)component->Clone().release());
+			auto cloneComponent = std::unique_ptr<Component>(dynamic_cast<Component*>(component->Clone().release()));
+			AddComponent(std::move(cloneComponent));
+		}
+	}
 
 	bool Actor::Initialize()
 	{
@@ -28,13 +47,10 @@ namespace kiko
 	{
 		if (lifespan != -1.0f)
 		{
-
 			{
 				lifespan -= dt;
 				destroyed = (lifespan <= 0);
 			}
-
-
 		}
 		for (auto& component : components)
 		{
@@ -44,7 +60,6 @@ namespace kiko
 	}
 	void Actor::Draw(kiko::Renderer& renderer)
 	{
-		//if (m_model) m_model->Draw(renderer, transform);
 		for (auto& component : components) // auto so you don't have to think about how many components there will be // & because we're not making a new one - just referencing 
 		{
 			RenderComponent* renderComponent = dynamic_cast<RenderComponent*>(component.get());
@@ -62,14 +77,16 @@ namespace kiko
 		components.push_back(std::move(component));
 	}
 
-	void Actor::Read(const rapidjson::Value& value)
+	void Actor::Read(const json_t& value)
 	{
 		Object::Read(value);
 
 		READ_DATA(value, tag);
 		READ_DATA(value, lifespan);
+		READ_DATA(value, persistent);
+		READ_DATA(value, prototype);
 
-		transform.Read(value);
+		//transform.Read(value);
 
 		if (HAS_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
 

@@ -6,13 +6,7 @@
 #include "Input/InputSystem.h"
 
 #include "Renderer/Renderer.h"
-#include "Renderer/Text.h"
-
-#include "Framework/Scene.h"
-#include "Framework/Resource/ResourceManager.h"
-#include "Framework/Resource/Resource.h"
 #include "Framework/Framework.h"
-#include "Framework/Factory.h"
 
 #include <cmath>
 
@@ -56,7 +50,6 @@ void SpaceGame::Shutdown()
 
 void SpaceGame::Update(float dt)
 {
-
 	switch (m_state)
 	{
 	case SpaceGame::eState::Title:
@@ -75,11 +68,14 @@ void SpaceGame::Update(float dt)
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE))
 		{
 			m_state = eState::StartGame;
-		}
+			m_scene->GetActorByName("Background")->active; // way to hide and unhide actors without destroying them
 
-		// check:
-		//std::cout << "Title Alpha: " << m_titleAlpha << std::endl;
-		
+			// check if null 
+			//auto actor = m_scene->GetActorByName<kiko::Actor>("Background");
+			//if (actor) actor->active = false;
+		}
+			// check alpha:
+			//std::cout << "Title Alpha: " << m_titleAlpha << std::endl;
 		break;
 	}
 	case SpaceGame::eState::StartGame:
@@ -93,16 +89,20 @@ void SpaceGame::Update(float dt)
 		{
 			// CREATE PLAYER //
 
-			std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 6 });
+			// old? 
+			/*std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.1f });
+			player->tag = "Player";
+			player->m_game = this;*/
+
+			auto player = std::make_unique<Player>(20.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.1f });
 			player->tag = "Player";
 			player->m_game = this;
 
 			// CREATE COMPONENTS //
 
 			// sprite component //
-			
 			auto renderComponent = CREATE_CLASS(SpriteRenderComponent)
-			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
+			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "Jet_01.png", kiko::g_renderer);
 			player->AddComponent(std::move(renderComponent));
 
 			// physics component //

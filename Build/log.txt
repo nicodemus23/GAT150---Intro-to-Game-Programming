@@ -1,12 +1,16 @@
-INFO: Factory.h(56)
+INFO: Factory.h(75)
+Class Registered: Weapon
+INFO: Factory.h(75)
 Class Registered: SpriteRenderComponent
-INFO: Factory.h(56)
+INFO: Factory.h(75)
 Class Registered: ModelRenderComponent
-INFO: Factory.h(56)
+INFO: Factory.h(75)
 Class Registered: EnginePhysicsComponent
-INFO: Factory.h(56)
+INFO: Factory.h(75)
 Class Registered: CircleCollisionComponent
-INFO: Factory.h(56)
+INFO: Factory.h(75)
 Class Registered: Actor
-INFO: Main.cpp(121)
+INFO: Main.cpp(94)
 Initialize Engine, yo...
+INFO: Factory.h(83)
+Prototype Class Registered: Rocket

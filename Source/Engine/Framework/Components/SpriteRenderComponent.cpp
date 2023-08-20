@@ -27,7 +27,7 @@ namespace kiko
 
 	void SpriteRenderComponent::Read(const json_t& value)
 	{
-		kiko::Json::Read(value, "textureName", textureName);
+		READ_DATA(value, textureName);
 	}
 
 }

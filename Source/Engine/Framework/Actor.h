@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
-#include "Renderer/Renderer.h"
+#include "Core/Core.h"
+#include "Renderer/Model.h"
 #include "Components/Component.h"
 #include <memory>
 
@@ -8,16 +9,15 @@
 namespace kiko
 {
 	class Actor : public Object
-
 	{
 	public:
-
 		CLASS_DECLARATION(Actor)
 
 		Actor() = default;
 		Actor(const kiko::Transform& transform) :
 			transform{ transform }
 		{}
+		Actor(const Actor& other); // make a copy of the "other" guy 
 
 		virtual bool Initialize() override;
 		virtual void OnDestroy() override;
@@ -43,10 +43,12 @@ namespace kiko
 		Transform transform;
 		std::string tag;
 		float lifespan = -1.0f;
+		bool destroyed = false;
+		bool persistent = false;
+		bool prototype = false;
 
 	protected:
 		std::vector<std::unique_ptr<Component>> components;
-		bool destroyed = false;
 
 	};
 

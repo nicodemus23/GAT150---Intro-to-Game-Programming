@@ -19,6 +19,7 @@ namespace kiko
 		}
 		std::stringstream stream(buffer);
 		rapidjson::IStreamWrapper istream(stream);
+
 		// parse stream to json
 		document.ParseStream(istream);
 		if (!document.IsObject())

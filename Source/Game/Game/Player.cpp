@@ -5,6 +5,9 @@
 #include "Input/InputSystem.h"
 #include "Renderer/Renderer.h"
 #include "Framework/Framework.h"
+// need this?:
+#include "Audio/AudioSystem.h"
+
 
 
 bool Player::Initialize()
@@ -21,7 +24,7 @@ bool Player::Initialize()
 		if (renderComponent)
 		{
 			float scale = transform.scale;
-			collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale * 0.75f; // remove or adjust 0.75 if necessary
+			collisionComponent->m_radius = renderComponent->GetRadius() * scale; // can add * 0.75 after scale if necessary
 		}
 	}
 
@@ -48,49 +51,24 @@ void Player::Update(float dt)
 	transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
 	transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
 
-	//// fire WeaponComponent
-	//if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE) &&
-	// !kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
-	//{
-	//	// create WeaponComponent // 
-	//	kiko::Transform transform1{transform.position, transform.rotation + kiko::DegreesToRadians(10.0f), 1};
-	//	std::unique_ptr<WeaponComponent> WeaponComponent = std::make_unique<WeaponComponent>(500.0f, transform1);
-	//	WeaponComponent->tag = "Player"; // player WeaponComponent
+	// fire Weapon
+	if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE) &&
+		!kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
+	{	// rocket1
+		auto weapon = INSTANTIATE(Weapon, "Rocket");
+		weapon->transform = { transform.position, transform.rotation + kiko::DegreesToRadians(10.0f), 1 };
+		weapon->Initialize();
+		m_scene->Add(std::move(weapon));
 
-	//	// add rocket image // rocket 1
-	//	auto component = std::make_unique<kiko::SpriteRenderComponent>();
-	//	component->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
-	//	WeaponComponent->AddComponent(std::move(component));
+		// rocket2
+		weapon = INSTANTIATE(Weapon, "Rocket");
+		weapon->transform = { transform.position, transform.rotation - kiko::DegreesToRadians(10.0f), 1 };
+		weapon->Initialize();
+		m_scene->Add(std::move(weapon));
+	
+	// add Weapon sound here:
 
-	//	// rocket collision // rocket 1
-	//	auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
-	//	collisionComponent->m_radius = 30.0f;
-	//	WeaponComponent->AddComponent(std::move(collisionComponent));
-
-	//	WeaponComponent->Initialize();
-	//	m_scene->Add(std::move(WeaponComponent));
-
-	//	// create WeaponComponent // rocket 2
-	//	kiko::Transform transform2{ transform.position, transform.rotation - kiko::DegreesToRadians(10.0f), 1 };
-	//	WeaponComponent = std::make_unique<WeaponComponent>(400.0f, transform2);
-	//	WeaponComponent->tag = "Player"; // player WeaponComponent
-
-	//	// add rocket image //  rocket 2
-	//	component = std::make_unique<kiko::SpriteRenderComponent>();
-	//	component->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
-	//	WeaponComponent->AddComponent(std::move(component));
-
-	//	// rocket collision // rocket 2
-	//	collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
-	//	collisionComponent->m_radius = 30.0f;
-	//	WeaponComponent->AddComponent(std::move(collisionComponent));
-
-	//	WeaponComponent->Initialize();
-	//	m_scene->Add(std::move(WeaponComponent));
-
-	//	// add WeaponComponent sound here:
-
-//	}
+	}
 
 	if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_T)) kiko::g_time.SetTimeScale(0.5f);
 	else kiko::g_time.SetTimeScale(1.0f);
