@@ -14,24 +14,21 @@ bool SpaceGame::Initialize()
 {
 
 	// CREATE FONT AND TEXT OBJECTS // shared pointer used so multiple assets can use it. 
-	m_font = GET_RESOURCE(kiko::Font, "arcade.ttf", 100);
-	//m_font = kiko::ResourceManager::Instance().Get<kiko::Font>("arcade.ttf", 100); // do I still need this? 
-	//std::make_shared<kiko::Font>("arcade.ttf", 100);
-	m_scoreFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
-	m_timerFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
+	m_font = GET_RESOURCE(kiko::Font, "StarJediLogoMonoline-6nGg.ttf", 30);
+//	m_scoreFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
+//	m_timerFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
 	
+	//m_scoreText = std::make_unique<kiko::Text>(m_scoreFont);
+	//m_scoreText->Create(kiko::g_renderer, "Score: 0000", kiko::Color{ 255, 0 , 0, 1 });
 
-	m_scoreText = std::make_unique<kiko::Text>(m_scoreFont);
-	m_scoreText->Create(kiko::g_renderer, "Score: 0000", kiko::Color{ 255, 0 , 0, 1 });
-
-	m_titleText = std::make_unique<kiko::Text>(m_font);
+	/*m_titleText = std::make_unique<kiko::Text>(m_font);
 	m_titleText->Create(kiko::g_renderer, "Crack Attack!", kiko::Color{ 255, 255, 0, 0 });
 
 	m_gameoverText = std::make_unique<kiko::Text>(m_font);
 	m_gameoverText->Create(kiko::g_renderer, "FAIL", kiko::Color{ 255, 255, 0, 1 });
 
 	m_timerText = std::make_unique<kiko::Text>(m_timerFont);
-	m_timerText->Create(kiko::g_renderer, "00", kiko::Color{ 1, 1, 1, 1 });
+	m_timerText->Create(kiko::g_renderer, "00", kiko::Color{ 1, 1, 1, 1 });*/
 
 	// load audio //
 	kiko::g_audioSystem.AddAudio("laser", "Laser_Shoot.wav");
@@ -89,12 +86,7 @@ void SpaceGame::Update(float dt)
 		{
 			// CREATE PLAYER //
 
-			// old? 
-			/*std::unique_ptr<Player> player = std::make_unique<Player>(200.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.1f });
-			player->tag = "Player";
-			player->m_game = this;*/
-
-			auto player = std::make_unique<Player>(20.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.1f });
+			auto player = std::make_unique<Player>(20.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.075f });
 			player->tag = "Player";
 			player->m_game = this;
 
@@ -129,12 +121,12 @@ void SpaceGame::Update(float dt)
 		{	
 			//  CREATE ENEMY //
 			m_spawnTimer = 0;
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 1});
+			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 0.05f});
 			enemy->tag = "Enemy";
 			enemy->m_game = this;
 
 			auto renderComponent = std::make_unique<kiko::SpriteRenderComponent>();
-			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer);
+			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "enemy_01.png", kiko::g_renderer);
 			enemy->AddComponent(std::move(renderComponent));
 
 			auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
@@ -174,8 +166,8 @@ void SpaceGame::Update(float dt)
 		break;
 	}
 
-	m_scoreText->Create(kiko::g_renderer, std::to_string(m_score), { 255, 0, 0, 1 });
-	m_timerText->Create(kiko::g_renderer, std::to_string((int)m_gameTimer), { 1, 1, 1, 1 });
+	//m_scoreText->Create(kiko::g_renderer, std::to_string(m_score), { 255, 0, 0, 1 });
+	//m_timerText->Create(kiko::g_renderer, std::to_string((int)m_gameTimer), { 1, 1, 1, 1 });
 	m_scene->Update(dt);
 }
 
@@ -188,9 +180,12 @@ void SpaceGame::Draw(kiko::Renderer& renderer)
 	}
 	if (m_state == eState::GameOver)
 	{
-		m_gameoverText->Draw(renderer, 300, 200);
+		//m_gameoverText->Draw(renderer, 300, 200);
+		m_scene->GetActorByName("Title")->active = true;
 	}
 
-	m_timerText->Draw(renderer, 725, 550);
-	m_scoreText->Draw(renderer, 35, 550);
+	//m_timerText->Draw(renderer, 725, 550);
+	//m_scoreText->Draw(renderer, 35, 550);
 }
+	//m_font = kiko::ResourceManager::Instance().Get<kiko::Font>("arcade.ttf", 100); // do I still need this? 
+	//std::make_shared<kiko::Font>("arcade.ttf", 100);

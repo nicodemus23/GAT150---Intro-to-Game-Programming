@@ -19,7 +19,7 @@ namespace kiko
 		~Text();
 
 		void Create(Renderer& renderer, const std::string& text, const Color& color);
-		void Draw(Renderer& renderer, int x, int y);
+		void Draw(Renderer& renderer, const class Transform& transform);
 
 		
 	private:

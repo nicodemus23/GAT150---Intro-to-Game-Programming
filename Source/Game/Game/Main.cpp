@@ -1,9 +1,10 @@
-#include "Audio/AudioSystem.h"
 #include "Core/Core.h"
 #include "Framework/Framework.h"
 
 #include "Renderer/Renderer.h"
+#include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
+#include "Physics/PhysicsSystem.h"
 
 #include "Player.h"
 #include "Enemy.h"
@@ -110,6 +111,9 @@ int main(int argc, char* argv[])
 
 	// initialize AudioSystem
 	kiko::g_audioSystem.Initialize();
+
+	// initialize PhysicsSystem
+	kiko::PhysicsSystem::Instance().Initialize();
 
 	// create game // 
 	unique_ptr<SpaceGame> game = make_unique<SpaceGame>();

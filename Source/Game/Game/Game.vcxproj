@@ -166,6 +166,9 @@
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Physics\Physics.vcxproj">
+      <Project>{e33a5c0d-f4d9-4311-a487-e45822998c58}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Audio\Audio.vcxproj">
       <Project>{6ec2e46d-3735-4f80-8e93-85a9e6b8b222}</Project>
     </ProjectReference>

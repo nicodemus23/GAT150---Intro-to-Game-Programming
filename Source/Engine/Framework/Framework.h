@@ -10,6 +10,7 @@
 #include "Framework/Components/RenderComponent.h"
 #include "Framework/Components/SpriteRenderComponent.h"
 #include "Framework/Components/ModelRenderComponent.h"
+#include "Framework/Components/TextRenderComponent.h"
 
 #include "Framework/Components/PhysicsComponent.h"
 #include "Framework/Components/EnginePhysicsComponent.h"
