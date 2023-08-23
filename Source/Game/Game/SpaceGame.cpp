@@ -37,6 +37,18 @@ bool SpaceGame::Initialize()
 	m_scene = std::make_unique<kiko::Scene>();
 	m_scene->Load("scene.json");
 	m_scene->Initialize();
+	//m_scene->SetGame(this);
+
+	// add events
+
+	//EVENT_SUBSCRIBE("OnAddPoints", SpaceGame::OnAddPoints);
+	//EVENT_SUBSCRIBE("OnPlayerDead", SpaceGame::OnPlayerDead);
+
+	//kiko::EventManager::Instance().Subscribe("OnAddPoints", this, std::bind(&SpaceGame::OnAddPoints, this, std::placeholders::_1));
+	//kiko::EventManager::Instance().Subscribe("OnPlayerDead", this, std::bind(&SpaceGame::OnPlayerDead, this, std::placeholders::_1));
+
+	EVENT_SUBSCRIBE("OnAddPoints", SpaceGame::OnAddPoints);
+	EVENT_SUBSCRIBE("OnPlayerDead", SpaceGame::OnAddPlayerDead);
 
 	return true;
 }
@@ -187,5 +199,13 @@ void SpaceGame::Draw(kiko::Renderer& renderer)
 	//m_timerText->Draw(renderer, 725, 550);
 	//m_scoreText->Draw(renderer, 35, 550);
 }
-	//m_font = kiko::ResourceManager::Instance().Get<kiko::Font>("arcade.ttf", 100); // do I still need this? 
-	//std::make_shared<kiko::Font>("arcade.ttf", 100);
+void SpaceGame::OnAddPoints(const kiko::Event& event)
+{
+	m_score += std::get<int>(event.data);
+}
+
+void SpaceGame::OnPlayerDead(const kiko::Event& event)
+{
+	m_lives--;
+	m_state = eState::PlayerDeadStart;
+}

@@ -1,8 +1,10 @@
 #pragma once
 #include "Framework/Game.h"
+#include "Framework/Event/EventManager.h"
 #include "Renderer/Text.h"
 
-class SpaceGame : public kiko::Game
+
+class SpaceGame : public kiko::Game, kiko::IEventListener // an object that can listen for events 
 {
 public:
 
@@ -26,6 +28,8 @@ public:
 	virtual void Draw(kiko::Renderer& renderer) override;
 
 	void SetState(eState state) { m_state = state; }
+	void OnAddPoints(const kiko::Event& event);
+	void OnPlayerDead(const kiko::Event& event);
 
 private:
 	eState m_state = eState::Title;

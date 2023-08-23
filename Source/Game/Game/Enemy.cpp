@@ -69,7 +69,9 @@ void Enemy::OnCollision(Actor* other)
 {	
 	if (other->tag == "Player")
 	{
-		m_game->AddPoints(100);
+		kiko::EventManager::Instance().DispatchEvent("OnAddPoints", 100);
+
+	//	m_game->AddPoints(100);
 		destroyed = true;
 
 		// create explosion

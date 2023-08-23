@@ -41,7 +41,7 @@
       "name": "Title",
       "persistent": true,
       "transform": {
-        "position": [ 400, 300 ],
+        "position": [ 300, 300 ],
         "scale": 2,
         "rotation": 0.0
       },
@@ -50,9 +50,29 @@
           "type": "TextRenderComponent",
           "fontName": "StarJediLogoMonoline-6nGg.ttf",
           "fontSize": 12,
-          "text": "Shitty Star Wars"
+          "text": "astro BATTLE"
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Title",
+      "persistent": true,
+      "transform": {
+        "position": [ 400, 500 ],
+        "scale": 1,
+        "rotation": 0.0
+      },
+      "components": [
+        {
+          "type": "TextRenderComponent",
+          "fontName": "StarJediLogoMonoline-6nGg.ttf",
+          "fontSize": 12,
+          "text": "totally original ip"
         }
       ]
     }
+
   ]
 }
+

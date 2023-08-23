@@ -17,6 +17,10 @@ namespace kiko
 	bool TextRenderComponent::Initialize()
 	{
 		if (!fontName.empty()) m_text = std::make_unique<kiko::Text>(kiko::ResourceManager::Instance().Get<kiko::Font>("StarJediLogoMonoline-6nGg.ttf", 15));
+		//m_text = std::make_unique<kiko::Text>(GET_RESOURCE(kiko::Font, "arcade.ttf", 100));
+		
+
+
 
 		return true;
 	}

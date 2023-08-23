@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Weapon.h"
 #include "SpaceGame.h"
+#include "Core/Json.h"
 
 #include "Input/InputSystem.h"
 #include "Renderer/Renderer.h"
@@ -71,14 +72,31 @@ void Player::Update(float dt)
 	else kiko::g_time.SetTimeScale(1.0f);
 
 }
-
 void Player::OnCollision(Actor* other)
-{	
+{
 	if (other->tag == "Enemy")
 	{
-		m_game->SetLives(m_game->GetLives() - 1);
 		destroyed = true;
-		dynamic_cast<SpaceGame*>(m_game)->SetState(SpaceGame::eState::PlayerDeadStart);
+		kiko::EventManager::Instance().DispatchEvent("OnPlayerDead", 0);
+
+		//m_game->SetLives(m_game->GetLives() - 1);
+		//dynamic_cast<SpaceGame*>(m_game)->SetState(SpaceGame::eState::PlayerDeadStart);
 	}
 }
+void Player::Read(const json_t& value)
+{
+	Actor::Read(value);
+
+	READ_DATA(value, speed);
+	READ_DATA(value, turnRate);
+}
+
+
+
+
+
+	
+
+
+
 

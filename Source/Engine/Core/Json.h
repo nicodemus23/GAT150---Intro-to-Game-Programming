@@ -8,6 +8,8 @@
 #define READ_DATA_REQUIRED(value, data) kiko::Json::Read(value, #data, data, true)
 #define HAS_DATA(value, data) value.HasMember(#data) // c.str
 #define GET_DATA(value, data) value[#data] // c.str
+#define READ_NAME_DATA(value, name, data) kiko::Json::Read(value, name, data)
+#define READ_NAME_DATA_REQUIRED(value, name, data) kiko::Json::Read(value, name, data, true)
 
 namespace kiko
 {
