@@ -1,4 +1,5 @@
 #pragma once
+#include <rapidjson/include/rapidjson/rapidjson.h>
 #include <rapidjson/include/rapidjson/document.h>
 #include "Core/Math/Vector2.h"
 

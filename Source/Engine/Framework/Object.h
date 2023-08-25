@@ -1,5 +1,4 @@
 #pragma once
-#include "Object.h"
 #include "Factory.h"
 #include "Core/Json.h"
 #include <string>

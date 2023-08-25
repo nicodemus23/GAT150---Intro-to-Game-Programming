@@ -1,4 +1,8 @@
 INFO: Factory.h(75)
+Class Registered: Enemy
+INFO: Factory.h(75)
+Class Registered: Player
+INFO: Factory.h(75)
 Class Registered: Weapon
 INFO: Factory.h(75)
 Class Registered: TextRenderComponent
@@ -11,8 +15,22 @@ Class Registered: EnginePhysicsComponent
 INFO: Factory.h(75)
 Class Registered: CircleCollisionComponent
 INFO: Factory.h(75)
+Class Registered: Box2DPhysicsComponent
+INFO: Factory.h(75)
+Class Registered: Box2DCollisionComponent
+INFO: Factory.h(75)
 Class Registered: Actor
-INFO: Main.cpp(164)
+INFO: Main.cpp(166)
 Initialize Engine, yo...
+INFO: Font.cpp(37)
+Failed to open font: StarJediLogoMonoline-6nGg.ttf
 INFO: Factory.h(83)
 Prototype Class Registered: Rocket
+INFO: Factory.h(83)
+Prototype Class Registered: Player
+INFO: Factory.h(83)
+Prototype Class Registered: Player
+INFO: EventManager.cpp(16)
+Event subscribed: OnAddPoints
+INFO: EventManager.cpp(16)
+Event subscribed: OnPlayerDead

@@ -17,6 +17,8 @@
 
 #include "Framework/Components/CircleCollisionComponent.h"
 #include "Framework/Components/CollisionComponent.h"
+#include "Framework/Components/Box2DCollisionComponent.h"
+#include "Framework/Components/Box2DPhysicsComponent.h"
 
 
 #include "Renderer/Texture.h"
@@ -24,7 +26,7 @@
 
 #include "Framework/Resource/Resource.h"
 #include "Resource/ResourceManager.h"
-#include "Event/EventManager.h"
+//#include "Event/EventManager.h"
 
 #include "Framework/Object.h"
 #include "Factory.h"

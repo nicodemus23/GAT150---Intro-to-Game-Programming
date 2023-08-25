@@ -10,15 +10,12 @@ namespace kiko
 	{
 		Actor::Initialize();
 
+		m_physicsComponent = GetComponent<PhysicsComponent>();
+
 		auto collisionComponent = GetComponent < kiko::CollisionComponent>();
 		if (collisionComponent)
 		{
-			auto renderComponent = GetComponent<kiko::RenderComponent>();
-			if (renderComponent)
-			{
-				float scale = transform.scale;
-				collisionComponent->m_radius = renderComponent->GetRadius() * scale * 0.75f;
-			}
+			
 		}
 		//debug: During Initialization
 		std::cout << "Rocket collision radius: " << collisionComponent << std::endl;
@@ -33,7 +30,9 @@ namespace kiko
 		Actor::Update(dt);
 
 		kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation); // calculate rocket rotation with forward vector
-		transform.position += forward * speed * kiko::g_time.GetDeltaTime(); // forward vector * speed * Delta time 
+		m_physicsComponent->SetVelocity(forward * speed);
+
+		//transform.position += forward * speed * kiko::g_time.GetDeltaTime(); // forward vector * speed * Delta time 
 		transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth()); // wrap x
 		transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight()); // wrap y
 
@@ -44,7 +43,7 @@ namespace kiko
 		std::cout << "Delta time: " << kiko::g_time.GetDeltaTime() << std::endl;
 	}
 
-	void Weapon::OnCollision(Actor* other)
+	void Weapon::OnCollisionEnter(Actor* other)
 	{
 		if (other->tag != tag)//*
 		{

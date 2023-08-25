@@ -35,7 +35,7 @@ bool SpaceGame::Initialize()
 
 	// create scene //
 	m_scene = std::make_unique<kiko::Scene>();
-	m_scene->Load("scene.json");
+	m_scene->Load("spaceScene.json");
 	m_scene->Initialize();
 	//m_scene->SetGame(this);
 
@@ -48,7 +48,7 @@ bool SpaceGame::Initialize()
 	//kiko::EventManager::Instance().Subscribe("OnPlayerDead", this, std::bind(&SpaceGame::OnPlayerDead, this, std::placeholders::_1));
 
 	EVENT_SUBSCRIBE("OnAddPoints", SpaceGame::OnAddPoints);
-	EVENT_SUBSCRIBE("OnPlayerDead", SpaceGame::OnAddPlayerDead);
+	EVENT_SUBSCRIBE("OnPlayerDead", SpaceGame::OnPlayerDead);
 
 	return true;
 }
@@ -64,9 +64,9 @@ void SpaceGame::Update(float dt)
 	case SpaceGame::eState::Title:
 	{
 		//// Animate the TITLE alpha from 0 to 255
-		const float animationDuration = 0.1f; // Adjust the duration of the animation as needed
-		m_titleAlpha += 255.0f * (dt / animationDuration);
-		m_titleAlpha = std::min(m_titleAlpha, 10.0f);
+		//const float animationDuration = 0.1f; // Adjust the duration of the animation as needed
+		//m_titleAlpha += 255.0f * (dt / animationDuration);
+		//m_titleAlpha = std::min(m_titleAlpha, 10.0f);
 
 		 // Animate the TITLE alpha using the easing function
 		//const float animationDuration = 0.1f; // Adjust the duration of the animation as needed
@@ -98,30 +98,35 @@ void SpaceGame::Update(float dt)
 		{
 			// CREATE PLAYER //
 
-			auto player = std::make_unique<Player>(20.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.075f });
+			/*auto player = std::make_unique<Player>(20.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.075f });
 			player->tag = "Player";
-			player->m_game = this;
+			player->m_game = this;*/
+
+			auto player = INSTANTIATE(Player, "Player");
+			player->transform = kiko::Transform{ { 365, 300 }, 0, 0.075f };
+			player->Initialize();
+			m_scene->Add(std::move(player));
 
 			// CREATE COMPONENTS //
 
 			// sprite component //
-			auto renderComponent = CREATE_CLASS(SpriteRenderComponent)
-			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "Jet_01.png", kiko::g_renderer);
-			player->AddComponent(std::move(renderComponent));
+			//auto renderComponent = CREATE_CLASS(SpriteRenderComponent)
+			//renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "Jet_01.png", kiko::g_renderer);
+			//player->AddComponent(std::move(renderComponent));
 
-			// physics component //
-			auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent)
-			physicsComponent->m_damping = 0.9f;
-			player->AddComponent(std::move(physicsComponent));
+			//// physics component //
+			//auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent)
+			//physicsComponent->m_damping = 0.9f;
+			//player->AddComponent(std::move(physicsComponent));
 
-			// collision component //
-			auto collisionComponent = CREATE_CLASS(CircleCollisionComponent)
-			collisionComponent->m_radius = 30.0f;
-			player->AddComponent(std::move(collisionComponent));
+			//// collision component //
+			//auto collisionComponent = CREATE_CLASS(CircleCollisionComponent)
+			//collisionComponent->m_radius = 30.0f;
+			//player->AddComponent(std::move(collisionComponent));
 
 			// initialize player //
-			player->Initialize(); // doing Initialize() operation before move because the unique pointer is no longer valid once moved
-			m_scene->Add(std::move(player));
+			//player->Initialize(); // doing Initialize() operation before move because the unique pointer is no longer valid once moved
+			//m_scene->Add(std::move(player));
 
 		}
 		m_state = eState::Game;
@@ -132,7 +137,7 @@ void SpaceGame::Update(float dt)
 		if (m_spawnTimer >= m_spawnTime)
 		{	
 			//  CREATE ENEMY //
-			m_spawnTimer = 0;
+		/*	m_spawnTimer = 0;
 			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 0.05f});
 			enemy->tag = "Enemy";
 			enemy->m_game = this;
@@ -146,8 +151,7 @@ void SpaceGame::Update(float dt)
 			enemy->AddComponent(std::move(collisionComponent));
 
 			enemy->Initialize();
-			m_scene->Add(std::move(enemy));
-
+			m_scene->Add(std::move(enemy));*/
 
 			// add WeaponComponents here
 		}
