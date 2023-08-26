@@ -4,7 +4,7 @@
 #include "Renderer/Text.h"
 
 
-class PlatformGame : public kiko::Game, kiko::IEventListener // an object that can listen for events 
+class PlatformGame : public kiko::Game, public kiko::IEventListener // an object that can listen for events 
 {
 public:
 

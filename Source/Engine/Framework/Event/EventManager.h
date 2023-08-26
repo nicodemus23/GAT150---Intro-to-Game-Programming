@@ -1,3 +1,4 @@
+#pragma once
 #include "Event.h"
 #include "Framework/Singleton.h"
 #include <map> // key 

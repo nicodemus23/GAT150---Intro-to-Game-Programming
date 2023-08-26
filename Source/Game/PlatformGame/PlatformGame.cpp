@@ -26,7 +26,7 @@ bool PlatformGame::Initialize()
 	m_scene->Initialize();
 
 	// add events
-	EVENT_SUBSCRIBE("OnAddPoints", PlatformGame::OnAddPoints);
+	kiko::EventManager::Instance().Subscribe("OnAddPoints", this, std::bind(&PlatformGame::OnAddPoints, this, std::placeholders::_1));
 	EVENT_SUBSCRIBE("OnPlayerDead", PlatformGame::OnPlayerDead);
 
 	return true;
