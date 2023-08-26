@@ -26,14 +26,12 @@ public:
 	Star(const kiko::vec2& pos, const kiko::vec2& vel) :
 		m_pos{ pos },
 		m_vel{ vel },
-		m_color{ static_cast<Uint8>(kiko::random(256)),static_cast<Uint8>(kiko::random(256)),static_cast<Uint8>(kiko::random(256)), static_cast<Uint8>(kiko::random(1)) },
+		m_color{ static_cast<float>(kiko::random(256)),static_cast<float>(kiko::random(256)),static_cast<float>(kiko::random(256)), static_cast<float>(kiko::random(1)) },
 		m_targetAlpha{ 5 },
 		m_alphaChangeSpeed{ 20.0f }
 		//// Generate a random color for each star and vary color with (156) + 100
 		////m_color{ kiko::random(156) + 100, kiko::random(156) + 100, kiko::random(156) + 100, kiko::random(255)} // Generate a random color for each star and vary color with (156) + 100
 	{}
-
-
 
 	void Update(int width, int height)
 	{
@@ -87,79 +85,79 @@ public:
 
 };
 
-void print(int i)
-{
-	cout << i << endl;
-}
-
-int add(int i1, int i2)
-{
-	return i1 + i2;
-}
-
-int sub(int i1, int i2)
-{
-	return i1 - i2;
-}
-// have to bind:
-class A
-{
-public:
-	int add(int i1, int i2)
-	{
-		return i1 + i2;
-	}
-};
-
-union Data
-{
-	int i;
-	bool b;
-	char c[6]; // str
-
-};
+//void print(int i)
+//{
+//	cout << i << endl;
+//}
+//
+//int add(int i1, int i2)
+//{
+//	return i1 + i2;
+//}
+//
+//int sub(int i1, int i2)
+//{
+//	return i1 - i2;
+//}
+//// have to bind:
+//class A
+//{
+//public:
+//	int add(int i1, int i2)
+//	{
+//		return i1 + i2;
+//	}
+//};
+//
+//union Data
+//{
+//	int i;
+//	bool b;
+//	char c[6]; // str
+//
+//};
 
 
 
 int main(int argc, char* argv[])
 {
 	// int, bool and char all share the same memory space in a union 
-	Data data;
-	data.b = true;
-	cout << data.b << endl;
+	//Data data;
+	//data.b = true;
+	//cout << data.b << endl;
 
-	cout << data.i << endl;
+	//cout << data.i << endl;
 
-	// share same memory space // however it's called is how it's treated // the memory is only as large as it's largest data type saved 
-	data.i = 0;
-	cout << data.i << endl;
-	cout << data.b << endl;
-
-
+	//// share same memory space // however it's called is how it's treated // the memory is only as large as it's largest data type saved 
+	//data.i = 0;
+	//cout << data.i << endl;
+	//cout << data.b << endl;
 
 
 
 
-	void (*func_ptr)(int) = &print; // function pointer to an address of a function that returns void and takes int
-	func_ptr(5);
-
-	int (*op_ptr)(int, int);
-	op_ptr = add;
-
-	cout << op_ptr(4, 4) << endl;
-
-	// function pointer
-	std::function<int(int, int)> op;
-
-	op = add;
-	cout << op(5, 6) << endl;
 
 
-	A a; // instance of A
+	//void (*func_ptr)(int) = &print; // function pointer to an address of a function that returns void and takes int
+	//func_ptr(5);
 
-	// bind method add to class A
-	op = std::bind(&A::add, &a, std::placeholders::_1, std::placeholders::_2); // give it address of class, address of var
-	cout << op(6,6) << endl;
+	//int (*op_ptr)(int, int);
+	//op_ptr = add;
+
+	//cout << op_ptr(4, 4) << endl;
+
+	//// function pointer
+	//std::function<int(int, int)> op;
+
+	//op = add;
+	//cout << op(5, 6) << endl;
+
+
+	//A a; // instance of A
+
+	//// bind method add to class A
+	//op = std::bind(&A::add, &a, std::placeholders::_1, std::placeholders::_2); // give it address of class, address of var
+	//cout << op(6,6) << endl;
 
 
 
