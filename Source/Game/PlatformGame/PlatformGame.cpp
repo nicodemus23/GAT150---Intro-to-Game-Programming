@@ -10,21 +10,24 @@ bool PlatformGame::Initialize()
 {
 
 	// CREATE FONT AND TEXT OBJECTS // shared pointer used so multiple assets can use it. 
-	//m_font = GET_RESOURCE(kiko::Font, "StarJediLogoMonoline-6nGg.ttf", 30);
-	
+	m_font = GET_RESOURCE(kiko::Font, "StarJediLogoMonoline-6nGg.ttf", 30);
+
 	// load audio //
-	//kiko::g_audioSystem.AddAudio("laser", "Laser_Shoot.wav");
+	kiko::g_audioSystem.AddAudio("laser", "Laser_Shoot.wav");
 
-	// create scene //
+	// create scene
+		// need this? 
+	m_scene = std::make_unique<kiko::Scene>();
 
-	m_scene->Load("scenes/scene.json");
+	// load scene giving it a path 
+	m_scene->Load("Scenes/scene.json");
+
+	// initialize the scene
 	m_scene->Initialize();
 
 	// add events
-
-	
-
-	
+	EVENT_SUBSCRIBE("OnAddPoints", PlatformGame::OnAddPoints);
+	EVENT_SUBSCRIBE("OnPlayerDead", PlatformGame::OnPlayerDead);
 
 	return true;
 }
@@ -38,104 +41,146 @@ void PlatformGame::Update(float dt)
 	switch (m_state)
 	{
 	case PlatformGame::eState::Title:
-	{
-		
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE))
 		{
 			m_state = eState::StartGame;
-			m_scene->GetActorByName("Background")->active; // way to hide and unhide actors without destroying them
+			// activates and deactivates the background
+			m_scene->GetActorByName("Background")->active = true;
+			//m_scene->GetActorByName("Title")->active = true;
 
-			// check if null 
-			//auto actor = m_scene->GetActorByName<kiko::Actor>("Background");
-			//if (actor) actor->active = false;
 		}
-		
 		break;
-	}
+
+
 	case PlatformGame::eState::StartGame:
 		m_score = 0;
 		m_lives = 3;
 		m_state = eState::StartLevel;
 		break;
 
+
 	case PlatformGame::eState::StartLevel:
 		m_scene->RemoveAll();
 		{
-			// CREATE PLAYER //
+			m_scene->GetActorByName("Title")->active = false;
 
-			/*auto player = std::make_unique<Player>(20.0f, kiko::Pi, kiko::Transform{ { 365, 300 }, 0, 0.075f });
-			player->tag = "Player";
-			player->m_game = this;*/
+			// create player
 
-			// CREATE COMPONENTS //
+			/*auto player = INSTANTIATE(Player, "Player");
+			player->transform = kiko::Transform{ { 400, 300 }, 0, 1 };
+			player->Initialize();
+			m_scene->Add(std::move(player));*/
 
-			// sprite component //
-			//auto renderComponent = CREATE_CLASS(SpriteRenderComponent)
-			//renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "Jet_01.png", kiko::g_renderer);
-			//player->AddComponent(std::move(renderComponent));
+			/*	auto renderComponent = CREATE_CLASS(SpriteRenderComponent);
+				renderComponent->m_texture = GET_RESOURCE(kiko::Texture, "pShip.png", kiko::g_renderer);
 
-			//// physics component //
-			//auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent)
-			//physicsComponent->m_damping = 0.9f;
-			//player->AddComponent(std::move(physicsComponent));
 
-			//// collision component //
-			//auto collisionComponent = CREATE_CLASS(CircleCollisionComponent)
-			//collisionComponent->m_radius = 30.0f;
-			//player->AddComponent(std::move(collisionComponent));
+				player->AddComponent(std::move(renderComponent));
 
-			// initialize player //
-			//player->Initialize(); // doing Initialize() operation before move because the unique pointer is no longer valid once moved
+
+				auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent);
+				physicsComponent->m_damping = 0.9f;
+				player->AddComponent(std::move(physicsComponent));
+
+				auto collisionComponent = CREATE_CLASS(CircleCollisionComponent);
+				collisionComponent->m_radius = 30.0f;
+				player->AddComponent(std::move(collisionComponent));*/
+
+			//player->Initialize();
 			//m_scene->Add(std::move(player));
-
 		}
 		m_state = eState::Game;
 		break;
+
+
 	case PlatformGame::eState::Game:
+
 		m_gameTimer += dt;
 		m_spawnTimer += dt;
 		if (m_spawnTimer >= m_spawnTime)
 		{
-			//  CREATE ENEMY //
-		/*	m_spawnTimer = 0;
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 0.05f});
-			enemy->tag = "Enemy";
-			enemy->m_game = this;
+			m_spawnTimer = 0;
 
-			auto renderComponent = std::make_unique<kiko::SpriteRenderComponent>();
-			renderComponent->m_texture = GET_RESOURCE (kiko::Texture, "enemy_01.png", kiko::g_renderer);
-			enemy->AddComponent(std::move(renderComponent));
+			//auto enemy = INSTANTIATE(Enemy, "Enemy");
+			/*enemy->transform = kiko::Transform{ { 400, 300 }, 0, 1 };
+			enemy->Initialize();*/
+			//m_scene->Add(std::move(enemy));
 
-			auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
-			collisionComponent->m_radius = 30.0f;
-			enemy->AddComponent(std::move(collisionComponent));
+			std::unique_ptr<kiko::SpriteRenderComponent> component = std::make_unique<kiko::SpriteRenderComponent>();
 
-			enemy->Initialize();
+			////put in enemy png
+			//component->m_texture = GET_RESOURCE(kiko::Texture, "eShip.png", kiko::g_renderer); //kiko::g_resources.Get<kiko::Texture>("eShip.png", kiko::g_renderer);
+			//enemy->AddComponent(std::move(component));
+
+			//auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
+			//collisionComponent->m_radius = 30.0f;
+			//enemy->AddComponent(std::move(collisionComponent));
+
+			/*enemy->Initialize();
 			m_scene->Add(std::move(enemy));*/
 
-			// add WeaponComponents here
+
 		}
 		break;
 
+
 	case eState::PlayerDeadStart:
-		
+		m_stateTimer = 3;
+		if (m_lives == 0) m_state = eState::GameOver;
+		else m_state = eState::PlayerDead;
 		break;
 
+
 	case PlatformGame::eState::PlayerDead:
-		
+		m_stateTimer -= dt;
+		if (m_stateTimer <= 0)
+		{
+			m_state = eState::StartLevel;
+		}
 		break;
+
+
 	case PlatformGame::eState::GameOver:
-		
+		m_stateTimer -= dt;
+		if (m_stateTimer <= 0)
+		{
+			m_scene->RemoveAll();
+			m_state = eState::Title;
+		}
 		break;
+
+
 	default:
 		break;
 	}
-
-	
+	//m_scoreText->Create(kiko::g_renderer, std::to_string(m_score), { 1, 1, 1, 1 });
+	//m_timerText->Create(kiko::g_renderer, std::to_string((int)m_gameTimer), { 1, 1, 1, 1 });
 	m_scene->Update(dt);
 }
-
 void PlatformGame::Draw(kiko::Renderer& renderer)
 {
+	m_scene->Draw(renderer);
 
+	if (m_state == eState::Title)
+	{
+		//	m_titleText->Draw(renderer, 400, 300);
+			m_scene->GetActorByName("Title")->active = true;
+	}
+	if (m_state == eState::GameOver)
+	{
+		//	m_gameoverText->Draw(renderer, 400, 300);
+	}
+	//	m_timerText->Draw(renderer, 400, 40);
+		//m_scoreText->Draw(renderer, 40, 20);
+}
+
+void PlatformGame::OnAddPoints(const kiko::Event& event)
+{
+	m_score += std::get<int>(event.data);
+}
+
+void PlatformGame::OnPlayerDead(const kiko::Event& event)
+{
+	m_lives--;
+	m_state = eState::PlayerDeadStart;
 }

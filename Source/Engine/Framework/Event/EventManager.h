@@ -4,13 +4,9 @@
 #include <list>
 #include <functional>
 
-#define EVENT_DISPATCH(id, value)        kiko::EventManager::Instance().DispatchEvent(id, value)
-#define EVENT_SUBSCRIBE(id, function)	 kiko::EventManager::Instance().Subscribe(id, this, std::bind(&function, this, std::placeholders::_1));
-#define EVENT_UNSUBSCRIBE(id)			 kiko::EventManager::Instance().Unsubscribe(id, this);
-//#define EVENT_DISPATCH(id, value)        
-//#define EVENT_SUBSCRIBE(id, function)	 
-//#define EVENT_UNSUBSCRIBE(id)			 
-
+#define EVENT_SUBSCRIBE(id, function)	 kiko::EventManager::Instance().Subscribe(id, this, std::bind(&function, this, std::placeholders::_1))
+#define EVENT_UNSUBSCRIBE(id)			 kiko::EventManager::Instance().Unsubscribe(id, this)
+#define EVENT_DISPATCH(id, data)		 kiko::EventManager::Instance().DispatchEvent(id, data)
 
 namespace kiko
 {

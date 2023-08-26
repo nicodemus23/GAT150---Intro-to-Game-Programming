@@ -77,7 +77,7 @@ void SpaceGame::Update(float dt)
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE))
 		{
 			m_state = eState::StartGame;
-			m_scene->GetActorByName("Background")->active; // way to hide and unhide actors without destroying them
+		//	m_scene->GetActorByName("Background")->active; // way to hide and unhide actors without destroying them
 
 			// check if null 
 			//auto actor = m_scene->GetActorByName<kiko::Actor>("Background");
@@ -131,14 +131,15 @@ void SpaceGame::Update(float dt)
 		}
 		m_state = eState::Game;
 		break;
+
 	case SpaceGame::eState::Game:
 		m_gameTimer += dt;
 		m_spawnTimer += dt;
 		if (m_spawnTimer >= m_spawnTime)
 		{	
 			//  CREATE ENEMY //
-		/*	m_spawnTimer = 0;
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 0.05f});
+			m_spawnTimer = 0;
+			/*std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(75.0f, 150.0f), kiko::Pi, kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 0.05f});
 			enemy->tag = "Enemy";
 			enemy->m_game = this;
 
@@ -178,6 +179,7 @@ void SpaceGame::Update(float dt)
 			m_state = eState::Title;
 		}
 		break;
+
 	default:
 		break;
 	}

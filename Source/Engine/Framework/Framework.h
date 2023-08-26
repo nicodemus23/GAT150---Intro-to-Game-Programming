@@ -26,7 +26,7 @@
 
 #include "Framework/Resource/Resource.h"
 #include "Resource/ResourceManager.h"
-//#include "Event/EventManager.h"
+#include "Event/EventManager.h"
 
 #include "Framework/Object.h"
 #include "Factory.h"

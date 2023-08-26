@@ -22,7 +22,6 @@ namespace kiko
 
      
         float operator [] (size_t index) const { return (&x)[index]; }
-
         float& operator [] (size_t index) { return (&x)[index]; }
 
         Vector2 operator - () { return Vector2(-x, -y); }

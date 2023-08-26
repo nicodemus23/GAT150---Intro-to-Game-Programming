@@ -110,12 +110,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/WHOLEARCHIVE:Framework %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -145,9 +149,6 @@
     <ClInclude Include="PlatformGame.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Physics\Physics.vcxproj">
-      <Project>{e33a5c0d-f4d9-4311-a487-e45822998c58}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Audio\Audio.vcxproj">
       <Project>{6ec2e46d-3735-4f80-8e93-85a9e6b8b222}</Project>
     </ProjectReference>
@@ -159,6 +160,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Engine\Input\Input.vcxproj">
       <Project>{6a3daba7-b711-4611-a110-4039e2d23196}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\Physics\Physics.vcxproj">
+      <Project>{edf1c9fe-b496-4be8-80a7-aa4b1200a887}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Engine\Renderer\Renderer.vcxproj">
       <Project>{e8f29194-f52b-4841-89a6-163b65aaf207}</Project>

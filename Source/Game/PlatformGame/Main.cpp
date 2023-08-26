@@ -1,3 +1,5 @@
+#include "PlatformGame.h"
+
 #include "Core/Core.h"
 #include "Framework/Framework.h"
 
@@ -44,7 +46,8 @@ int main(int argc, char* argv[])
 	kiko::PhysicsSystem::Instance().Initialize();
 
 	// create game // 
-	//game->Initialize();
+	unique_ptr<PlatformGame> game = make_unique<PlatformGame>();
+	game->Initialize();
 
 	// create texture
 	//kiko::res_t<kiko::Texture> texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer); // <-----NEED THIS?
@@ -76,25 +79,13 @@ int main(int argc, char* argv[])
 		kiko::PhysicsSystem::Instance().Update(kiko::g_time.GetDeltaTime());
 
 		// update game
-		//game->Update(kiko::g_time.GetDeltaTime());
+		game->Update(kiko::g_time.GetDeltaTime());
 
 		// draw game
 		kiko::g_renderer.SetColor(0, 0, 0, 0);
 		kiko::g_renderer.BeginFrame();
 
-		//game->Draw(kiko::g_renderer);
-
-		//draw stars
-		//for (auto& star : stars)
-		//{
-		//	star.Update(kiko::g_renderer.GetWidth(), kiko::g_renderer.GetHeight());
-		//	//kiko::g_renderer.SetColor(kiko::random(256), kiko::random(256), kiko::random(256), kiko::random(255));
-		//	kiko::g_renderer.SetColor(static_cast<Uint8>(star.m_color.r), static_cast<Uint8>(star.m_color.g), static_cast<Uint8>(star.m_color.b), static_cast<Uint8>(star.m_color.a));
-		//	//star.Draw(kiko::g_renderer);
-
-		//	int circleRadius = 200;
-		//	kiko::g_renderer.DrawFilledCircle(star.m_pos.x, star.m_pos.y, star.m_color.a, circleRadius);
-		//}
+		game->Draw(kiko::g_renderer);
 
 		// draw particles
 		kiko::g_particleSystem.Draw(kiko::g_renderer);

@@ -14,7 +14,7 @@ namespace kiko
 		Event() = default;
 		Event(const id_t& id, data_t data) :
 			id{ id }, data{ data }
-		{};
+		{}
 
 	public:
 		id_t id;

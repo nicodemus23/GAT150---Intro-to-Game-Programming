@@ -2,6 +2,8 @@
 #include <rapidjson/include/rapidjson/rapidjson.h>
 #include <rapidjson/include/rapidjson/document.h>
 #include "Core/Math/Vector2.h"
+#include "Core/Math/Color.h"
+#include "Core/Math/Rect.h"
 
 #include <string>
 
@@ -24,6 +26,8 @@ namespace kiko
 		static bool Read(const rapidjson::Value& value, const std::string& name, bool& data, bool required = false);
 		static bool Read(const rapidjson::Value& value, const std::string& name, std::string& data, bool required = false);
 		static bool Read(const rapidjson::Value& value, const std::string& name, vec2& data, bool required = false);
+		static bool Read(const rapidjson::Value& value, const std::string& name, Color& data, bool required = false);
+		static bool Read(const rapidjson::Value& value, const std::string& name, Rect& data, int required = false);
 
 
 

@@ -112,6 +112,8 @@ namespace kiko
 
 			READ_DATA(value, speed);
 			READ_DATA(value, turnRate);
+			READ_DATA(value, fireRate);
+
 		}
 
 	

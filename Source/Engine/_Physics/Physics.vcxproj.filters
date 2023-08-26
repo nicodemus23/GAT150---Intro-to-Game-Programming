@@ -11,18 +11,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\Engine\Physics\PhysicsSystem.h">
+    <ClInclude Include="PhysicsSystem.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Engine\Physics\ContactListener.h">
+    <ClInclude Include="ContactListener.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\Engine\Physics\PhysicsSystem.cpp">
+    <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Engine\Physics\ContactListener.cpp">
+    <ClCompile Include="ContactListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

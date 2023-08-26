@@ -11,7 +11,7 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{19fff326-3569-4cd4-b810-d1d865802d7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Event">
+    <Filter Include="Source Files\Event">
       <UniqueIdentifier>{d3b4d26b-6e0a-48f5-9042-bc625f457322}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -50,7 +50,10 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Event\EventManager.cpp">
-      <Filter>Event</Filter>
+      <Filter>Source Files\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SpriteAnimRenderComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,10 +121,13 @@
       <Filter>Source Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Event\Event.h">
-      <Filter>Event</Filter>
+      <Filter>Source Files\Event</Filter>
     </ClInclude>
     <ClInclude Include="Event\EventManager.h">
-      <Filter>Event</Filter>
+      <Filter>Source Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SpriteAnimRenderComponent.h">
+      <Filter>Source Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
