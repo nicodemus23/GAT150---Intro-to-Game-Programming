@@ -39,7 +39,6 @@
           "angularDamping": 2,
           "gravityScale": 0
         },
-
         {
           "type": "Box2DCollisionComponent",
           "size": [ 32, 32 ],
@@ -100,7 +99,6 @@
         {
           "type": "SpriteRenderComponent",
           "textureName": "Jet_01.png"
-
         },
         {
           "type": "Box2DPhysicsComponent",
@@ -108,7 +106,6 @@
           "angularDamping": 2,
           "gravityScale": 0
         },
-
         {
           "type": "Box2DCollisionComponent",
           "size": [ 32, 32 ]
@@ -116,14 +113,14 @@
       ]
     },
     {
-      "type": "Player",
-      "name": "Player",
+      "type": "Enemy",
+      "name": "Enemy",
       "prototype": true,
       "tag": "Enemy",
       "transform": {
         "position": [ 300, 400 ],
         "scale": 1,
-        "rotation": 0.0
+        "rotation": 0
       },
       "speed": 200,
       "turnRate": 0.5,
@@ -139,7 +136,6 @@
           "angularDamping": 2,
           "gravityScale": 0
         },
-
         {
           "type": "Box2DCollisionComponent",
           "size": [ 32, 32 ]

@@ -29,6 +29,13 @@ namespace kiko
 		return true;
 	}
 
+	void Enemy::OnDestroy()
+	{
+		Actor::OnDestroy();
+	}
+
+
+
 	void Enemy::Update(float dt)
 	{
 		Actor::Update(dt);

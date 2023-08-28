@@ -36,6 +36,6 @@
     <ClInclude Include="SpaceGame.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Build\Assets\spaceScene.json" />
+    <None Include="..\..\..\Build\Assets\Scenes\spaceScene.json" />
   </ItemGroup>
 </Project>

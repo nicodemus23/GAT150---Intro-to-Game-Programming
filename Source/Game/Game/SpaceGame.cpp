@@ -35,7 +35,7 @@ bool SpaceGame::Initialize()
 
 	// create scene //
 	m_scene = std::make_unique<kiko::Scene>();
-	m_scene->Load("spaceScene.json");
+	m_scene->Load("Scenes/spaceScene.json");
 	m_scene->Initialize();
 	//m_scene->SetGame(this);
 
@@ -125,8 +125,8 @@ void SpaceGame::Update(float dt)
 			//player->AddComponent(std::move(collisionComponent));
 
 			// initialize player //
-			//player->Initialize(); // doing Initialize() operation before move because the unique pointer is no longer valid once moved
-			//m_scene->Add(std::move(player));
+			player->Initialize(); // doing Initialize() operation before move because the unique pointer is no longer valid once moved
+			m_scene->Add(std::move(player));
 
 		}
 		m_state = eState::Game;

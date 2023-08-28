@@ -90,6 +90,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/WHOLEARCHIVE:Framework %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Bin\$(PlatformName)\$(Configuration)\$(ProjectName)\*.exe" "$(SolutionDir)Build" /Y</Command>
@@ -111,6 +112,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/WHOLEARCHIVE:Framework %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Bin\$(PlatformName)\$(Configuration)\$(ProjectName)\*.exe" "$(SolutionDir)Build" /Y</Command>
@@ -129,6 +131,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/WHOLEARCHIVE:Framework %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Bin\$(PlatformName)\$(Configuration)\$(ProjectName)\*.exe" "$(SolutionDir)Build" /Y</Command>
@@ -153,6 +156,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/WHOLEARCHIVE:Framework %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Bin\$(PlatformName)\$(Configuration)\$(ProjectName)\*.exe" "$(SolutionDir)Build" /Y</Command>
@@ -178,6 +182,9 @@
     <ProjectReference Include="..\..\Engine\Input\Input.vcxproj">
       <Project>{6a3daba7-b711-4611-a110-4039e2d23196}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Engine\Physics\Physics.vcxproj">
+      <Project>{edf1c9fe-b496-4be8-80a7-aa4b1200a887}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Renderer\Renderer.vcxproj">
       <Project>{e8f29194-f52b-4841-89a6-163b65aaf207}</Project>
     </ProjectReference>
@@ -189,7 +196,7 @@
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Build\Assets\spaceScene.json" />
+    <None Include="..\..\..\Build\Assets\Scenes\spaceScene.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,7 +5,7 @@
 namespace kiko
 {
 
-	class Enemy : public kiko::Actor
+	class Enemy : public Actor
 	{
 	public:
 		CLASS_DECLARATION(Enemy)
@@ -18,7 +18,7 @@ namespace kiko
 
 		void OnCollisionEnter(Actor* other) override;
 
-	private:
+	public:
 		float speed = 0;
 		float turnRate = 0;
 
