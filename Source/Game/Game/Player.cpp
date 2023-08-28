@@ -71,11 +71,6 @@ namespace kiko
 			weapon->Initialize();
 			m_scene->Add(std::move(weapon));
 
-			// rocket2
-			//weapon = INSTANTIATE(Weapon, "Rocket");
-			//weapon->transform = { transform.position, transform.rotation - kiko::DegreesToRadians(10.0f), 1 }; // overriding Json values
-			//weapon->Initialize();
-			//m_scene->Add(std::move(weapon));
 		}
 
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_T)) kiko::g_time.SetTimeScale(0.5f);

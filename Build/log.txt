@@ -24,14 +24,18 @@ INFO: Factory.h(75)
 Class Registered: Actor
 INFO: Main.cpp(164)
 Initialize Engine, yo...
-INFO: Font.cpp(37)
-Failed to open font: StarJediLogoMonoline-6nGg.ttf
 INFO: Factory.h(83)
 Prototype Class Registered: Rocket
 INFO: Factory.h(83)
 Prototype Class Registered: Player
 INFO: Factory.h(83)
 Prototype Class Registered: Enemy
+INFO: Font.cpp(37)
+Failed to open font: StarJediLogoMonoline-6nGg.ttf
+INFO: EventManager.cpp(17)
+Event subscribed: OnAddPoints
+INFO: EventManager.cpp(17)
+Event subscribed: OnPlayerDead
 INFO: EventManager.cpp(17)
 Event subscribed: OnAddPoints
 INFO: EventManager.cpp(17)
