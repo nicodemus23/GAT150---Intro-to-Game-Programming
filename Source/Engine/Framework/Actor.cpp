@@ -38,7 +38,7 @@ namespace kiko
 	{
 		for (auto& component : components)
 		{
-			component->Initialize();
+			component->OnDestroy();
 		}
 	}
 

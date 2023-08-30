@@ -14,7 +14,30 @@ bool SpaceGame::Initialize()
 {
 
 	// CREATE FONT AND TEXT OBJECTS // shared pointer used so multiple assets can use it. 
-	m_font = GET_RESOURCE(kiko::Font, "Fonts/StarJediLogoMonoline-6nGg.ttf", 30);
+	
+	m_font = GET_RESOURCE(kiko::Font, "arcadeclassic.ttf", 24);
+	m_scoreText = std::make_unique<kiko::Text>(m_font);
+	m_scoreText->Create(kiko::g_renderer, "SCORE 0000", kiko::Color{ 1, 0, 1, 1 });
+
+	m_titleText = std::make_unique<kiko::Text>(m_font);
+	m_titleText->Create(kiko::g_renderer, "AZTEROIDS", kiko::Color{ 1, 1, 1, 1 });
+
+
+
+
+	m_gameoverText = std::make_unique<kiko::Text>(m_font);
+	m_gameoverText->Create(kiko::g_renderer, "GAME OVER", kiko::Color{ 1, 1, 1, 1 });
+
+	m_timerText = std::make_unique<kiko::Text>(m_font);
+	m_timerText->Create(kiko::g_renderer, "TIMER", kiko::Color{ 1, 1, 1, 1 });
+
+	// load audio
+	kiko::g_audioSystem.AddAudio("hit", "hit.wav");
+	kiko::g_audioSystem.AddAudio("laser", "Laser.wav");
+
+
+
+	//m_font = GET_RESOURCE(kiko::Font, "Fonts/StarJediLogoMonoline-6nGg.ttf", 30);
 	//	m_scoreFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
 	//	m_timerFont = GET_RESOURCE (kiko::Font, "arcade.ttf", 50);
 
@@ -60,28 +83,14 @@ void SpaceGame::Update(float dt)
 	{
 	case SpaceGame::eState::Title:
 	{
-		//// Animate the TITLE alpha from 0 to 255
-		//const float animationDuration = 0.1f; // Adjust the duration of the animation as needed
-		//m_titleAlpha += 255.0f * (dt / animationDuration);
-		//m_titleAlpha = std::min(m_titleAlpha, 10.0f);
-
-		 // Animate the TITLE alpha using the easing function
-		//const float animationDuration = 0.1f; // Adjust the duration of the animation as needed
-		//float t = std::min(m_titleAlpha / 255.0f, 1.0f); // Clamp t between 0 and 1
-		//float easedT = t < 0.5f ? 2.0f * t * t : 1.0f - std::pow(-2.0f * t + 2.0f, 2.0f) * 0.5f;
-		//m_titleAlpha = easedT * 255.0f;
-
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE))
 		{
 			m_state = eState::StartGame;
-			m_scene->GetActorByName("Background")->active; // way to hide and unhide actors without destroying them
+			// activates and deactivates the background
+			//m_scene->GetActorByName("Background")->active = false;
+			m_scene->GetActorByName("Title")->active = true;
 
-			// check if null 
-			//auto actor = m_scene->GetActorByName<kiko::Actor>("Background");
-			//if (actor) actor->active = false;
 		}
-		// check alpha:
-		//std::cout << "Title Alpha: " << m_titleAlpha << std::endl;
 		break;
 	}
 	case SpaceGame::eState::StartGame:
@@ -93,6 +102,8 @@ void SpaceGame::Update(float dt)
 	case SpaceGame::eState::StartLevel:
 		m_scene->RemoveAll();
 		{
+			m_scene->GetActorByName("Title")->active = false;
+
 			// CREATE PLAYER //
 
 			auto player = INSTANTIATE(Player, "Player");
@@ -114,7 +125,7 @@ void SpaceGame::Update(float dt)
 			m_spawnTimer = 0;
 
 			auto enemy = INSTANTIATE(Enemy, "Enemy");
-			enemy->transform = kiko::Transform{ { 365, 300 }, 0, 0.075f };
+			enemy->transform = kiko::Transform{ { kiko::random(800), kiko::random(600) }, 0, 0.075f};
 			enemy->Initialize();
 			m_scene->Add(std::move(enemy));
 
@@ -157,7 +168,8 @@ void SpaceGame::Draw(kiko::Renderer& renderer)
 	m_scene->Draw(renderer);
 	if (m_state == eState::Title)
 	{
-		//m_titleText->Draw(renderer, 100, 200);
+		m_titleText->Draw(renderer, 400, 300);
+		m_scene->GetActorByName("Title")->active = true;
 	}
 	if (m_state == eState::GameOver)
 	{

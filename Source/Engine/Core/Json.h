@@ -6,6 +6,8 @@
 #include "Core/Math/Rect.h"
 
 #include <string>
+#include <vector> // dynamic arrays that can grow and shrink
+
 
 #define READ_DATA(value, data) kiko::Json::Read(value, #data, data)
 #define READ_DATA_REQUIRED(value, data) kiko::Json::Read(value, #data, data, true)
@@ -28,6 +30,8 @@ namespace kiko
 		static bool Read(const rapidjson::Value& value, const std::string& name, vec2& data, bool required = false);
 		static bool Read(const rapidjson::Value& value, const std::string& name, Color& data, bool required = false);
 		static bool Read(const rapidjson::Value& value, const std::string& name, Rect& data, int required = false);
+		static bool Read(const rapidjson::Value& value, const std::string& name, std::vector<std::string>& data, int required = false);
+		static bool Read(const rapidjson::Value& value, const std::string& name, std::vector<int>& data, int required = false);
 
 
 

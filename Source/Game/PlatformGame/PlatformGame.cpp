@@ -10,7 +10,7 @@ bool PlatformGame::Initialize()
 {
 
 	// CREATE FONT AND TEXT OBJECTS // shared pointer used so multiple assets can use it. 
-	m_font = GET_RESOURCE(kiko::Font, "StarJediLogoMonoline-6nGg.ttf", 30);
+	//m_font = GET_RESOURCE(kiko::Font, "StarJediLogoMonoline-6nGg.ttf", 30);
 
 	// load audio //
 	kiko::g_audioSystem.AddAudio("laser", "Laser_Shoot.wav");
@@ -26,7 +26,8 @@ bool PlatformGame::Initialize()
 	m_scene->Initialize();
 
 	// add events
-	kiko::EventManager::Instance().Subscribe("OnAddPoints", this, std::bind(&PlatformGame::OnAddPoints, this, std::placeholders::_1));
+	//kiko::EventManager::Instance().Subscribe("OnAddPoints", this, std::bind(&PlatformGame::OnAddPoints, this, std::placeholders::_1));
+	EVENT_SUBSCRIBE("OnAddPoints", PlatformGame::OnAddPoints);
 	EVENT_SUBSCRIBE("OnPlayerDead", PlatformGame::OnPlayerDead);
 
 	return true;
@@ -71,23 +72,6 @@ void PlatformGame::Update(float dt)
 			player->Initialize();
 			m_scene->Add(std::move(player));*/
 
-			/*	auto renderComponent = CREATE_CLASS(SpriteRenderComponent);
-				renderComponent->m_texture = GET_RESOURCE(kiko::Texture, "pShip.png", kiko::g_renderer);
-
-
-				player->AddComponent(std::move(renderComponent));
-
-
-				auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent);
-				physicsComponent->m_damping = 0.9f;
-				player->AddComponent(std::move(physicsComponent));
-
-				auto collisionComponent = CREATE_CLASS(CircleCollisionComponent);
-				collisionComponent->m_radius = 30.0f;
-				player->AddComponent(std::move(collisionComponent));*/
-
-			//player->Initialize();
-			//m_scene->Add(std::move(player));
 		}
 		m_state = eState::Game;
 		break;
@@ -153,8 +137,7 @@ void PlatformGame::Update(float dt)
 	default:
 		break;
 	}
-	//m_scoreText->Create(kiko::g_renderer, std::to_string(m_score), { 1, 1, 1, 1 });
-	//m_timerText->Create(kiko::g_renderer, std::to_string((int)m_gameTimer), { 1, 1, 1, 1 });
+	
 	m_scene->Update(dt);
 }
 void PlatformGame::Draw(kiko::Renderer& renderer)

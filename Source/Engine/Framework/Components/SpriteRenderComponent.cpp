@@ -31,13 +31,15 @@ namespace kiko
 
 	void SpriteRenderComponent::Draw(Renderer& renderer)
 	{
-		renderer.DrawTexture(m_texture.get(), source, m_owner->transform); //m_texture.get() gets the pointer to m_texture
+		renderer.DrawTexture(m_texture.get(), source, m_owner->transform, origin, flipH); //m_texture.get() gets the pointer to m_texture
 	}
 
 	void SpriteRenderComponent::Read(const json_t& value)
 	{
 		READ_DATA(value, textureName);
 		READ_DATA(value, source);
+		READ_DATA(value, flipH);
+		READ_DATA(value, origin);
 	}
 
 }

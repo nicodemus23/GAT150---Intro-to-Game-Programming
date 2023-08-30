@@ -43,7 +43,7 @@ namespace kiko
 		kiko::Json::Read(value, "size", data.size);
 		READ_NAME_DATA(value, "density", data.density);
 		READ_NAME_DATA(value, "friction", data.friction);
-		READ_NAME_DATA(value, "resitution", data.restitution);
+		READ_NAME_DATA(value, "restitution", data.restitution);
 		READ_NAME_DATA(value, "isTrigger", data.isTrigger);
 
 		READ_DATA(value, scaleOffset);

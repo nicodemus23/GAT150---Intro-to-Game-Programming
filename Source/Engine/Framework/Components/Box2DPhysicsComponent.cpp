@@ -11,7 +11,7 @@ namespace kiko
 	{
 		m_body = PhysicsSystem::Instance().CreateBody(m_owner->transform.position, m_owner->transform.rotation, data);
 		m_body->SetGravityScale(data.gravityScale);
-		m_body->SetLinearDamping(data.damping);
+ 		m_body->SetLinearDamping(data.damping);
 		m_body->SetAngularDamping(data.angularDamping);
 
 		return true;

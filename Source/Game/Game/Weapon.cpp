@@ -27,20 +27,14 @@ namespace kiko
 
 	void Weapon::Update(float dt)
 	{
+
+
 		Actor::Update(dt);
 
-		kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation); // calculate rocket rotation with forward vector
-		m_physicsComponent->SetVelocity(forward * speed);
-
-		//transform.position += forward * speed * kiko::g_time.GetDeltaTime(); // forward vector * speed * Delta time 
-		transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth()); // wrap x
-		transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight()); // wrap y
-
-		// debug: rocket movement during update
-		std::cout << "Rocket position: (" << transform.position.x << ", " << transform.position.y << ")" << std::endl;
-		std::cout << "Forward vector: (" << forward.x << ", " << forward.y << ")" << std::endl;
-		std::cout << "Rocket speed: " << speed << std::endl;
-		std::cout << "Delta time: " << kiko::g_time.GetDeltaTime() << std::endl;
+		kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation);
+		transform.position += forward * speed * kiko::g_time.GetDeltaTime();
+		transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
+		transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
 	}
 
 	void Weapon::OnCollisionEnter(Actor* other)

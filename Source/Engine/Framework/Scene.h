@@ -60,10 +60,12 @@ namespace kiko
 				T* result = dynamic_cast<T*>(actor.get());
 				if (result) return result;
 			}
-		
 		}
+
 		return nullptr;
 	}
+
+
 }
 
 //

@@ -63,7 +63,7 @@ namespace kiko
 			// turn towards player
 			float turnAngle = kiko::vec2::SignedAngle(forward, direction.Normalized());
 			//transform.rotation += turnAngle * dt;
-			m_physicsComponent->ApplyTorque(turnAngle);
+			m_physicsComponent->ApplyTorque(turnAngle * 0.0001f);
 
 
 			// check for player in sight 

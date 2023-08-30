@@ -6,13 +6,13 @@
       "persistent": true,
       "transform": {
         "position": [ 400, 300 ],
-        "scale": 0.5,
+        "scale": 1.75,
         "rotation": 0.0
       },
       "components": [
         {
           "type": "SpriteRenderComponent",
-          "textureName": "background.png"
+          "textureName": "backgrounds/spaceBackground.jpg"
         }
       ]
     },
@@ -21,29 +21,20 @@
       "name": "Rocket",
       "prototype": true,
       "tag": "Player",
-      "lifespan": 2,
+      "lifespan": 3,
       "transform": {
-        "position": [300, 400],
-        "scale": 0.25,
+        "position": [400, 300],
+        "scale": 1,
         "rotation": 0
       },
-      "speed": 25,
+      "speed": 300,
       "components": [
         {
           "type": "SpriteRenderComponent",
-          "textureName": "Rocket02_15.png"
+          "textureName": "textures/shot2.png"
         },
         {
-          "type": "Box2DPhysicsComponent",
-          "damping": 1,
-          "angularDamping": 0.5,
-          "gravityScale": 0.1
-        },
-        {
-          "type": "Box2DCollisionComponent",
-          "size": [ 32, 32 ],
-          "isTrigger": true,
-          "constrainAngle": false
+          "type": "CircleCollisionComponent"
         }
       ]
     },
@@ -52,16 +43,16 @@
       "name": "Title",
       "persistent": true,
       "transform": {
-        "position": [ 300, 300 ],
+        "position": [ 400, 300 ],
         "scale": 2,
-        "rotation": 0.0
+        "rotation": 0
       },
       "components": [
         {
           "type": "TextRenderComponent",
-          "fontName": "Fonts/StarJediLogoMonoline-6nGg.ttf",
-          "fontSize": 12,
-          "text": "astro BATTLE"
+          "fontName": "fonts/arcadeclassic.ttf",
+          "fontSize": 24,
+          "text": "ASTEROIDZ"
         }
       ]
     },
@@ -94,7 +85,7 @@
         "rotation": 0.25
       },
       "speed": 2,
-      "turnRate": 0.1,
+      "turnRate": 0.001,
       "components": [
         {
           "type": "SpriteRenderComponent",
@@ -102,8 +93,8 @@
         },
         {
           "type": "Box2DPhysicsComponent",
-          "damping": 0.25,
-          "angularDamping": 1,
+          "damping": 0.98,
+          "angularDamping": 2,
           "gravityScale": 0
         },
         {
@@ -132,8 +123,8 @@
         },
         {
           "type": "Box2DPhysicsComponent",
-          "damping": 0.25,
-          "angularDamping": 0.1,
+          "damping": 0.98,
+          "angularDamping": 2,
           "gravityScale": 0
         },
         {

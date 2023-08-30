@@ -9,6 +9,7 @@
 
 #include "Framework/Components/RenderComponent.h"
 #include "Framework/Components/SpriteRenderComponent.h"
+#include "Framework/Components/SpriteAnimRenderComponent.h"
 #include "Framework/Components/ModelRenderComponent.h"
 #include "Framework/Components/TextRenderComponent.h"
 
@@ -19,6 +20,7 @@
 #include "Framework/Components/CollisionComponent.h"
 #include "Framework/Components/Box2DCollisionComponent.h"
 #include "Framework/Components/Box2DPhysicsComponent.h"
+#include "Framework/Components/TilemapComponent.h"
 
 
 #include "Renderer/Texture.h"

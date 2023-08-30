@@ -1,22 +1,22 @@
+#include "Audio/AudioSystem.h"
 #include "Core/Core.h"
 #include "Framework/Framework.h"
-
-#include "Renderer/Renderer.h"
-#include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
+#include "Renderer/Renderer.h"
+
 #include "Physics/PhysicsSystem.h"
 
-#include "Player.h"
 #include "Enemy.h"
+#include "Player.h"
 #include "SpaceGame.h"
 
-#include <iostream>
-#include <vector>
-#include <thread>
 #include <array>
-#include <list>
+#include <iostream>
 #include <map>
+#include <thread>
+#include <vector>
 #include <functional>
+
 
 using namespace std;
 
@@ -25,184 +25,114 @@ class Star
 public:
 	Star(const kiko::vec2& pos, const kiko::vec2& vel) :
 		m_pos{ pos },
-		m_vel{ vel },
-		m_color{ static_cast<float>(kiko::random(256)),static_cast<float>(kiko::random(256)),static_cast<float>(kiko::random(256)), static_cast<float>(kiko::random(1)) },
-		m_targetAlpha{ 5 },
-		m_alphaChangeSpeed{ 20.0f }
-		//// Generate a random color for each star and vary color with (156) + 100
-		////m_color{ kiko::random(156) + 100, kiko::random(156) + 100, kiko::random(156) + 100, kiko::random(255)} // Generate a random color for each star and vary color with (156) + 100
+		m_vel{ vel }
 	{}
 
 	void Update(int width, int height)
 	{
-	
 		m_pos += m_vel * kiko::g_time.GetDeltaTime();
 		if (m_pos.x >= width) m_pos.x = 0;
 		if (m_pos.y >= height) m_pos.y = 0;
-
-		
-		// star twinkle // 
-		// Interpolate alpha towards the target alpha value
-		float twinkleProb = 1.0f;
-
-		if (kiko::randomf(0.0f, 1.0f) < twinkleProb)
-		{
-			float alphaDiff = m_targetAlpha - m_color.a;
-			float alphaChange = m_alphaChangeSpeed * kiko::g_time.GetDeltaTime();
-			if (abs(alphaDiff) <= alphaChange)
-			{
-				m_color.a = static_cast<Uint8>(m_targetAlpha);
-				m_targetAlpha = kiko::random(30); // Update the target alpha to a new random value
-			}
-			else
-			{
-				m_color.a += (alphaDiff > 0) ? alphaChange : -alphaChange;
-			}
-		}
-
 	}
-	// point stars var //
-	/*void Draw(kiko::Renderer& renderer)
+
+	void Draw(kiko::Renderer& renderer)
 	{
 		renderer.DrawPoint(m_pos.x, m_pos.y);
-	}*/
-
-	// circle stars  var (varying size) //
-	void DrawFilledCircle(kiko::Renderer& renderer)
-	{
-		float radius = 25.0f;
-		Uint8 alpha = static_cast<Uint8>(m_color.a);
-		renderer.DrawFilledCircle(m_pos.x, m_pos.y, alpha, static_cast<Uint8>(radius));
 	}
 
-
-	public:
-		kiko::vec2 m_pos;
-		kiko::vec2 m_vel;
-		kiko::Color m_color;
-		int m_targetAlpha;
-		float m_alphaChangeSpeed;
-
+public:
+	kiko::vec2 m_pos;
+	kiko::vec2 m_vel;
 };
 
-//void print(int i)
-//{
-//	cout << i << endl;
-//}
-//
-//int add(int i1, int i2)
-//{
-//	return i1 + i2;
-//}
-//
-//int sub(int i1, int i2)
-//{
-//	return i1 - i2;
-//}
-//// have to bind:
-//class A
-//{
-//public:
-//	int add(int i1, int i2)
-//	{
-//		return i1 + i2;
-//	}
-//};
-//
-//union Data
-//{
-//	int i;
-//	bool b;
-//	char c[6]; // str
-//
-//};
+
+template <typename T>
+void print(const std::string& s, const T& container)
+{
+	std::cout << s << std::endl;
+	for (auto element : container)
+	{
+		std::cout << element << " ";
+	}
+	std::cout << std::endl;
+}
 
 
-
+//MAIN
 int main(int argc, char* argv[])
 {
-	// int, bool and char all share the same memory space in a union 
-	//Data data;
-	//data.b = true;
-	//cout << data.b << endl;
 
-	//cout << data.i << endl;
-
-	//// share same memory space // however it's called is how it's treated // the memory is only as large as it's largest data type saved 
-	//data.i = 0;
-	//cout << data.i << endl;
-	//cout << data.b << endl;
+	// singleton is trying to prevent this (there can be only one)
+	//kiko::ResourceManager manager;
 
 
 
+	INFO_LOG("Initialize Engine...")
 
-
-
-	//void (*func_ptr)(int) = &print; // function pointer to an address of a function that returns void and takes int
-	//func_ptr(5);
-
-	//int (*op_ptr)(int, int);
-	//op_ptr = add;
-
-	//cout << op_ptr(4, 4) << endl;
-
-	//// function pointer
-	//std::function<int(int, int)> op;
-
-	//op = add;
-	//cout << op(5, 6) << endl;
-
-
-	//A a; // instance of A
-
-	//// bind method add to class A
-	//op = std::bind(&A::add, &a, std::placeholders::_1, std::placeholders::_2); // give it address of class, address of var
-	//cout << op(6,6) << endl;
-
-
-
-	INFO_LOG("Initialize Engine, yo...")
-
-	kiko::MemoryTracker::Initialize();
+		kiko::MemoryTracker::Initialize();
 	kiko::seedRandom((unsigned int)time(nullptr));
 	kiko::setFilePath("assets");
 
-	
-	// Initialize Game Engine // 
+
+	/*
+	// get json file and load it
+	rapidjson::Document document;
+	kiko::Json::Load("json.txt", document);
+
+	int i1;
+	kiko::Json::Read(document, "integer1", i1);
+	std::cout << i1 << std::endl;
+
+	int i2;
+	kiko::Json::Read(document, "integer2", i2);
+	std::cout << i2 << std::endl;
+
+
+	std::string str;
+	kiko::Json::Read(document, "string", str);
+	std::cout << str << std::endl;
+
+	bool b;
+	kiko::Json::Read(document, "boolean", b);
+	std::cout << b << std::endl;
+
+	float f;
+	kiko::Json::Read(document, "float", f);
+	std::cout << f << std::endl;
+
+	kiko::vec2 v2;
+	kiko::Json::Read(document, "vector2", v2);
+	std::cout << v2 << std::endl;
+	*/
+
+
+	// initialize engine
 	kiko::g_renderer.Initialize();
-	kiko::g_renderer.CreateWindow("GAT150", 800, 600);
+	kiko::g_renderer.CreateWindow("CSC196", 800, 600);
 
-	// Set blend render blend mode for alpha
-	SDL_SetRenderDrawBlendMode(kiko::g_renderer.GetSDLRenderer(), SDL_BLENDMODE_BLEND);
-
-	// Initialize inputSystem
+	// initialize systems
 	kiko::g_inputSystem.Initialize();
-
-	// initialize AudioSystem
 	kiko::g_audioSystem.Initialize();
-
-	// initialize PhysicsSystem
 	kiko::PhysicsSystem::Instance().Initialize();
 
-	// create game // 
+	// create game
 	unique_ptr<SpaceGame> game = make_unique<SpaceGame>();
 	game->Initialize();
 
-	// create texture
-	//kiko::res_t<kiko::Texture> texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer); // <-----NEED THIS?
-
-	////// STARS //////
 	vector<Star> stars;
-	for (int i = 0; i < 1500; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		kiko::Vector2 pos(kiko::Vector2(kiko::random(kiko::g_renderer.GetWidth()), kiko::random(kiko::g_renderer.GetHeight())));
-		kiko::Vector2 vel(kiko::randomf(10, 200), 0.0f);
+		kiko::Vector2 vel(kiko::randomf(100, 200), 0.0f);
 
 		stars.push_back(Star(pos, vel));
 	}
 
-	// MAIN GAME LOOP //
+	// create texture
+	//kiko::res_t<kiko::Texture> texture = GET_RESOURCE(kiko::Texture, "RocketPiskelApp.png", kiko::g_renderer);
 
+
+	// main game loop
 	bool quit = false;
 	while (!quit)
 	{
@@ -213,7 +143,6 @@ int main(int argc, char* argv[])
 		{
 			quit = true;
 		}
-
 		kiko::g_particleSystem.Update(kiko::g_time.GetDeltaTime());
 		kiko::PhysicsSystem::Instance().Update(kiko::g_time.GetDeltaTime());
 
@@ -223,192 +152,25 @@ int main(int argc, char* argv[])
 		// draw game
 		kiko::g_renderer.SetColor(0, 0, 0, 0);
 		kiko::g_renderer.BeginFrame();
+		game->Draw(kiko::g_renderer); // move below stars if we dont want it painted
 
-		game->Draw(kiko::g_renderer);
-
-		 //draw stars
 		for (auto& star : stars)
 		{
 			star.Update(kiko::g_renderer.GetWidth(), kiko::g_renderer.GetHeight());
-			//kiko::g_renderer.SetColor(kiko::random(256), kiko::random(256), kiko::random(256), kiko::random(255));
-			kiko::g_renderer.SetColor(static_cast<Uint8>(star.m_color.r), static_cast<Uint8>(star.m_color.g), static_cast<Uint8>(star.m_color.b), static_cast<Uint8>(star.m_color.a));
-			//star.Draw(kiko::g_renderer);
-
-			int circleRadius = 200;
-			kiko::g_renderer.DrawFilledCircle(star.m_pos.x, star.m_pos.y, star.m_color.a, circleRadius);
+			kiko::g_renderer.SetColor(kiko::random(256), kiko::random(256), kiko::random(256), 255);
+			star.Draw(kiko::g_renderer);
 		}
 
-		// draw particles
 		kiko::g_particleSystem.Draw(kiko::g_renderer);
+
+		// Single image on the screen to make sure that png is being drawn
+		//kiko::g_renderer.DrawTexture(texture.get(), 150.0f, 150.0f, 0.0f, 1.0f, 1.0f);
+
 
 		kiko::g_renderer.EndFrame();
 	}
-	stars.clear();
 
+
+	stars.clear();
 	return 0;
 }
-
-
-
-
-// first twinkle solution
-
-				// randomize alpha component of stars for twinkle effect 
-				//if (kiko::randomf(0.1f, 5.0f) < 2.5)
-				//{
-				//	m_color.a = kiko::random(50); // lower value
-				//}
-				//else if (kiko::randomf(0.0f, 10.0f) > 2.5f)
-				//{
-				//	m_color.a = kiko::random(50)+ 20; // higher value
-				//}
-		
-// LEARNING // ////////////////////////////////////////////////////////////////////////////////
-
-//template <typename T>
-//void print(const std::string& s, const T& container)
-//{
-//	std::cout << s << std::endl;
-//	for (auto element : container)
-//	{
-//		std::cout << element << " ";
-//	}
-//	std::cout << std::endl;
-//}
-
-// pass by value (in int main) - makes a copy
-//void zero(int v)
-//{
-//	v = 0;
-//}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-// pass by pointer version -  pass address to variable and may want to change it or not (const)
-//void zero(int* v)
-//{
-//	*v = 0;
-//}
-//
-//// pass by reference // may want to change it or not (const)
-//void zero_ref(int& v)  // can't pass to a literal value unless you make this const (const int& v)
-//{
-//	v = 0;
-//}
-//
-//void print(std::string s)
-//{
-//	cout << s << endl;
-//}
-//
-//void print(std::vector<int>)
-//{
-//
-//}
-
-
-
-	// passed value
-//int i = 5;
-//zero(i);
-//cout << i << endl;
-//
-//// passed pointer * > &
-//int i = 5;
-//zero(&i);
-//cout << i << endl;
-//
-//// passed by reference 
-//int i = 5;
-//zero_ref(i);
-//cout << i << endl;
-//std::string str = "hello";
-//print(str);
-//
-//std::vector<int> vec;
-//vec.resize(10000);
-//print(vec);
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-/*int j = 0;
-ASSERT_LOG(j,  "Pointer is null, yo.")*/
-//cout << "start game...\n";
-
-//INFO_LOG(" 'ello y'all");
-
-//int n[4] = { 1,2,3,4 };
-//print("array: 0", n);
-//cout << n << endl;
-//cout << n[0] << endl;
-//cout << *n << endl;
-//cout << (*n + 1) << endl;
-
-//
-//std::array<int, 4> na = { 1,2,3,4 };
-//print("ARRAY CLASS: ", na);
-//cout << na.front() << endl;
-//cout << na.back() << endl;
-//cout << na.max_size() << endl;
-//	
-
-//std::vector<int> nv = { 1,2,3,4 };	
-//print("Vector: ", nv);
-//nv.insert(nv.begin() + 2, 0);
-//nv.push_back(5);
-//nv.pop_back();
-//nv[3] = 10;
-////auto iter = std::remove(nv.begin(), nv.end(), 2);
-//auto iter = nv.erase(nv.begin(), nv.end());
-//print("Vector: ", nv);
-
-//std::list<int> nl = { 1,2,3,4 };
-//print("List: ", nl);
-//nl.push_front(0);
-//print("List: ", nl);
-
-//std::map<std::string, int> ages;
-//ages["charles"] = 17;
-//ages["xane"] = 18;
-//ages["jacob"] = 19;
-//ages["jacob"] = 20;
-
-
-/*cout << ages["jacob"] << endl;
-cout << ages["xane"] << endl;*/
-
-// rapidjson assignment code for Main
-//
-// rapidjson::Document document;
-//kiko::Json::Load("json.txt", document);
-//
-// 
-//int i1;
-//kiko::Json::Read(document, "integer1", i1);
-//std::cout << i1 << std::endl;
-//
-//int i2;
-//kiko::Json::Read(document, "integer2", i2);
-//std::cout << i2 << std::endl;
-//
-//std::string str;
-//kiko::Json::Read(document, "string", str);
-//std::cout << str << std::endl;
-//
-//bool b;
-//kiko::Json::Read(document, "boolean", b);
-//std::cout << b << std::endl;
-//
-//float f;
-//kiko::Json::Read(document, "float", f);
-//std::cout << f << std::endl;
-//
-//kiko::vec2 v2;
-//kiko::Json::Read(document, "vector2", v2);
-//std::cout << v2 << std::endl;
