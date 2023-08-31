@@ -12,13 +12,6 @@ namespace kiko
 
 		Player() = default;
 
-		// NO NEED FOR THIS CONSTRUCTOR - VALUES BEING READ FROM JSON FILE
-		//Player(float speed, float turnRate, const kiko::Transform& transform) :
-		//	Actor{ transform},
-		//	speed{ speed },
-		//	turnRate{ turnRate }
-		//{}
-
 		bool Initialize() override;
 		void Update(float dt) override;
 		void OnCollisionEnter(Actor* other) override;

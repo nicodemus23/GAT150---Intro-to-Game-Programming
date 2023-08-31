@@ -13,6 +13,7 @@ namespace kiko
 		virtual void ApplyTorque(float torque) = 0; // not pure virtual since initializing with value 
 
 		virtual void SetVelocity(const vec2& velocity) { this->velocity = velocity; }
+		virtual void SetGravityScale(float scale) {}
 
 	public:
 		vec2 velocity;

@@ -10,7 +10,7 @@ bool PlatformGame::Initialize()
 {
 
 	// CREATE FONT AND TEXT OBJECTS // shared pointer used so multiple assets can use it. 
-	//m_font = GET_RESOURCE(kiko::Font, "StarJediLogoMonoline-6nGg.ttf", 30);
+	m_font = GET_RESOURCE(kiko::Font, "StarJediLogoMonoline-6nGg.ttf", 30);
 
 	// load audio //
 	kiko::g_audioSystem.AddAudio("laser", "Laser_Shoot.wav");
@@ -26,7 +26,6 @@ bool PlatformGame::Initialize()
 	m_scene->Initialize();
 
 	// add events
-	//kiko::EventManager::Instance().Subscribe("OnAddPoints", this, std::bind(&PlatformGame::OnAddPoints, this, std::placeholders::_1));
 	EVENT_SUBSCRIBE("OnAddPoints", PlatformGame::OnAddPoints);
 	EVENT_SUBSCRIBE("OnPlayerDead", PlatformGame::OnPlayerDead);
 
@@ -67,7 +66,7 @@ void PlatformGame::Update(float dt)
 
 			// create player
 
-			/*auto player = INSTANTIATE(Player, "Player");
+		/*	auto player = INSTANTIATE(Player, "Player");
 			player->transform = kiko::Transform{ { 400, 300 }, 0, 1 };
 			player->Initialize();
 			m_scene->Add(std::move(player));*/
@@ -85,10 +84,10 @@ void PlatformGame::Update(float dt)
 		{
 			m_spawnTimer = 0;
 
-			//auto enemy = INSTANTIATE(Enemy, "Enemy");
-			/*enemy->transform = kiko::Transform{ { 400, 300 }, 0, 1 };
-			enemy->Initialize();*/
-			//m_scene->Add(std::move(enemy));
+			/*auto enemy = INSTANTIATE(Enemy, "Enemy");
+			enemy->transform = kiko::Transform{ { 400, 300 }, 0, 1 };
+			enemy->Initialize();
+			m_scene->Add(std::move(enemy));*/
 
 			std::unique_ptr<kiko::SpriteRenderComponent> component = std::make_unique<kiko::SpriteRenderComponent>();
 
@@ -99,9 +98,6 @@ void PlatformGame::Update(float dt)
 			//auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
 			//collisionComponent->m_radius = 30.0f;
 			//enemy->AddComponent(std::move(collisionComponent));
-
-			/*enemy->Initialize();
-			m_scene->Add(std::move(enemy));*/
 
 
 		}

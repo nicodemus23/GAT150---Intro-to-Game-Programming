@@ -40,9 +40,20 @@ namespace kiko
 
 	void PhysicsSystem::SetCollisionBox(b2Body* body, const CollisionData& data, class Actor* actor)
 	{
-		b2PolygonShape shape;
 		Vector2 worldSize = ScreenToWorld(data.size * 0.5f);
-		shape.SetAsBox(worldSize.x, worldSize.y);
+		Vector2 worldOffset = ScreenToWorld(data.size * data.offset);
+
+		// creates collision in size of box
+		b2Vec2 vs[4] =
+		{
+			{ -worldSize.x - worldOffset.x, -worldSize.y - worldOffset.y },
+			{  worldSize.x - worldOffset.x, -worldSize.y - worldOffset.y },
+			{  worldSize.x - worldOffset.x,  worldSize.y - worldOffset.y },
+			{ -worldSize.x - worldOffset.x,  worldSize.y + -worldOffset.y },
+		};
+
+		b2PolygonShape shape;
+		shape.Set(vs, 4); // vs is address and 4 is number of points
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.density = data.density;

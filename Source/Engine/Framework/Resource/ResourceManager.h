@@ -6,7 +6,7 @@
 #include <string>
 #include <cstdarg>
 
-#define GET_RESOURCE(type, filename, ...)  kiko::ResourceManager::Instance().Get<type>(filename, __VA_ARGS__);
+#define GET_RESOURCE(type, filename, ...)  kiko::ResourceManager::Instance().Get<type>(filename, __VA_ARGS__)
 
 
 namespace kiko

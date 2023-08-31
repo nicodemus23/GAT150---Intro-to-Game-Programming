@@ -14,18 +14,9 @@ namespace kiko
 	{
 		Actor::Initialize();
 
+		// cache off 
 		m_physicsComponent = GetComponent<kiko::PhysicsComponent>(); // 
 
-		auto collisionComponent = GetComponent < kiko::CollisionComponent>();
-		if (collisionComponent)
-		{
-			auto renderComponent = GetComponent<kiko::RenderComponent>();
-			if (renderComponent)
-			{
-				float scale = transform.scale;
-				collisionComponent->m_radius = GetComponent<kiko::RenderComponent>()->GetRadius() * scale;
-			}
-		}
 		return true;
 	}
 
@@ -33,8 +24,6 @@ namespace kiko
 	{
 		Actor::OnDestroy();
 	}
-
-
 
 	void Enemy::Update(float dt)
 	{
@@ -69,12 +58,12 @@ namespace kiko
 			// check for player in sight 
 			if (std::fabs(turnAngle) < kiko::DegreesToRadians(30.0f))
 			{
+
 			}
 		}
 
 		m_physicsComponent->ApplyForce(forward * speed);
 
-		//transform.position += forward * speed * kiko::g_time.GetDeltaTime();
 		transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
 		transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
 
@@ -86,8 +75,6 @@ namespace kiko
 		if (other->tag == "Player")
 		{
 			EVENT_DISPATCH("OnAddPoints", 100);
-
-			//	m_game->AddPoints(100);
 			destroyed = true;
 
 			// create explosion

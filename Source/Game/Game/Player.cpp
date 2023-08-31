@@ -31,7 +31,6 @@ namespace kiko
 				collisionComponent->m_radius = renderComponent->GetRadius() * scale; // can add * 0.75 after scale if necessary
 			}
 		}
-
 		return true;
 	}
 
@@ -41,18 +40,30 @@ namespace kiko
 
 		//movement
 		float rotate = 0;
-		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_A)) rotate = -1;
-		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_D)) rotate = 1;
-		//transform.rotation += rotate * turnRate * kiko::g_time.GetDeltaTime();
+		float thrust = 0;
+		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_A))
+		{
+			rotate = -1;
+		}
+
+		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_D))
+		{
+			rotate = 1;
+		}
+
+		transform.rotation += rotate * turnRate * kiko::g_time.GetDeltaTime();
+
 		m_physicsComponent->ApplyTorque(rotate * turnRate);
 
-		float thrust = 0;
-		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_W)) thrust = 1;
+		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_W))
+		{
+			thrust = 1;
+
+		}
 		kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation);
 
 		m_physicsComponent->ApplyForce(forward * speed * thrust);
 
-		//transform.position += forward * speed * thrust * kiko::g_time.GetDeltaTime();
 		transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
 		transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
 
@@ -64,7 +75,6 @@ namespace kiko
 			weapon->transform = { transform.position + forward * 30, transform.rotation + kiko::DegreesToRadians(10.0f), 1 };
 			weapon->Initialize();
 			m_scene->Add(std::move(weapon));
-
 
 			weapon = INSTANTIATE(Weapon, "Rocket");
 			weapon->transform = { transform.position + forward * 30, transform.rotation - kiko::DegreesToRadians(10.0f), 1 };
@@ -84,10 +94,9 @@ namespace kiko
 			destroyed = true;
 			EVENT_DISPATCH("OnPlayerDead", 0);
 
-			//m_game->SetLives(m_game->GetLives() - 1);
-			//dynamic_cast<SpaceGame*>(m_game)->SetState(SpaceGame::eState::PlayerDeadStart);
 		}
 	}
+
 	void Player::Read(const json_t& value)
 	{
 		Actor::Read(value);

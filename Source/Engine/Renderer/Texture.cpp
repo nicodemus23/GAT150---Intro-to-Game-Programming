@@ -29,7 +29,7 @@ namespace kiko
 		SDL_Surface* surface = IMG_Load(filename.c_str());
 		if (!surface)
 		{
-			WARNING_LOG(" Texture is not initialized, homey\n");
+			WARNING_LOG(" Texture is not initialized, homey\n" << filename.c_str());
 			return false;
 		}
 		m_texture = SDL_CreateTextureFromSurface(renderer.m_renderer, surface);

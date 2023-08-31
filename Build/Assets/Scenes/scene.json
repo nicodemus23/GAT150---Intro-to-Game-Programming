@@ -82,6 +82,7 @@
       "tag": "Player",
       "persistent": true,
       "speed": 30,
+      "maxSpeed": 8,
       "jump": 5,
       "transform": {
         "position": [ 440, 300 ],
@@ -92,6 +93,8 @@
         {
           "type": "SpriteAnimRenderComponent",
           "defaultSequence": "idle",
+          "source": [0, 0, 16, 35],
+          "origin": [0.5, 1], 
           "sequences": [
             {
               "name": "idle",
@@ -120,11 +123,11 @@
       "name": "Enemy",
       "tag": "Enemy",
       "persistent": true,
-      "speed": 4,
+      "speed": 5,
       "jump": 5,
       "transform": {
         "position": [ 240, 300 ],
-        "scale": 0.5,
+        "scale": 5,
         "rotation": 0.0
       },
       "components": [
@@ -139,7 +142,7 @@
               "numRows": 1,
               "startFrame": 1,
               "endFrame": 4,
-              "textureName": "Textures/bat.png"
+              "textureName": "Textures/bat.jpg"
             }
           ]
         },

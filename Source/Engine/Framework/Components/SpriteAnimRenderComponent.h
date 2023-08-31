@@ -30,7 +30,7 @@ namespace kiko
 		void Update(float dt) override; //*
 		// parent handles the draw here 
 
-		void SetSequence(const std::string& name);
+		void SetSequence(const std::string& name, bool update = true);
 		void UpdateSource();
 	public:
 

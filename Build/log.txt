@@ -3,6 +3,8 @@ Class Registered: Enemy
 INFO: Factory.h(75)
 Class Registered: Player
 INFO: Factory.h(75)
+Class Registered: Weapon
+INFO: Factory.h(75)
 Class Registered: TilemapComponent
 INFO: Factory.h(75)
 Class Registered: TextRenderComponent
@@ -22,13 +24,18 @@ INFO: Factory.h(75)
 Class Registered: Box2DCollisionComponent
 INFO: Factory.h(75)
 Class Registered: Actor
-INFO: Main.cpp(25)
-Initialize Engine, yo...
-INFO: Texture.cpp(32)
- Texture is not initialized, homey
-
+INFO: Main.cpp(70)
+Initialize Engine...
 INFO: Font.cpp(37)
-Failed to open font: StarJediLogoMonoline-6nGg.ttf
+Failed to open font: arcadeclassic.ttf
+INFO: Font.cpp(37)
+Failed to open font: Fonts/StarJediLogoMonoline-6nGg.ttf
+INFO: Factory.h(83)
+Prototype Class Registered: Rocket
+INFO: Factory.h(83)
+Prototype Class Registered: Player
+INFO: Factory.h(83)
+Prototype Class Registered: Enemy
 INFO: EventManager.cpp(17)
 Event subscribed: OnAddPoints
 INFO: EventManager.cpp(17)

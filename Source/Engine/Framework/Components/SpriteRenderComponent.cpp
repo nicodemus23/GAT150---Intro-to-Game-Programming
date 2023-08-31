@@ -22,6 +22,7 @@ namespace kiko
 			}
 		}
 		return true;
+
 	}
 
 	void SpriteRenderComponent::Update(float dt)

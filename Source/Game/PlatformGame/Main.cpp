@@ -49,19 +49,6 @@ int main(int argc, char* argv[])
 	unique_ptr<PlatformGame> game = make_unique<PlatformGame>();
 	game->Initialize();
 
-	// create texture
-	//kiko::res_t<kiko::Texture> texture = GET_RESOURCE (kiko::Texture, "test.png", kiko::g_renderer); // <-----NEED THIS?
-
-	////// STARS //////
-	/*vector<Star> stars;
-	for (int i = 0; i < 1500; i++)
-	{
-		kiko::Vector2 pos(kiko::Vector2(kiko::random(kiko::g_renderer.GetWidth()), kiko::random(kiko::g_renderer.GetHeight())));
-		kiko::Vector2 vel(kiko::randomf(10, 200), 0.0f);
-
-		stars.push_back(Star(pos, vel));
-	}*/
-
 	// MAIN GAME LOOP //
 
 	bool quit = false;
@@ -92,24 +79,7 @@ int main(int argc, char* argv[])
 
 		kiko::g_renderer.EndFrame();
 	}
-	//stars.clear();
 
 	return 0;
 }
-
-
-
-
-// first twinkle solution
-
-				// randomize alpha component of stars for twinkle effect 
-				//if (kiko::randomf(0.1f, 5.0f) < 2.5)
-				//{
-				//	m_color.a = kiko::random(50); // lower value
-				//}
-				//else if (kiko::randomf(0.0f, 10.0f) > 2.5f)
-				//{
-				//	m_color.a = kiko::random(50)+ 20; // higher value
-				//}
-
 

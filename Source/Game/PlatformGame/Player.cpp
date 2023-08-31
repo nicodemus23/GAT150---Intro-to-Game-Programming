@@ -1,12 +1,10 @@
 #include "Player.h"
 #include "Framework/Actor.h"
-#include "Core/Json.h"
-#include "Framework/Components/PhysicsComponent.h"
-
-
 #include "Input/InputSystem.h"
 #include "Renderer/Renderer.h"
 #include "Framework/Framework.h"
+
+#include <algorithm>
 
 
 namespace kiko
@@ -30,11 +28,21 @@ namespace kiko
 		bool onGround = (groundCount > 0);
 		//movement
 		float direction = 0;
+		vec2 velocity = m_physicsComponent->velocity;
+
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_A)) direction = -1;
 		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_D)) direction = 1;
 
-		kiko::vec2 forward = kiko::vec2{ 1, 0 };
-		m_physicsComponent->ApplyForce(forward * speed * direction);
+		if (direction)
+		{
+
+			//kiko::vec2 forward = kiko::vec2{ 1, 0 };
+			velocity.x += speed * direction * ((onGround) ? 1 : 0.25f) * dt;
+			velocity.x = Clamp(velocity.x, -maxSpeed, maxSpeed);
+			m_physicsComponent->SetVelocity(velocity);
+			//m_physicsComponent->ApplyForce(forward * speed * direction);
+		}
+		
 
 
 		// the more gravity, the more speed you'll need in json for Player
@@ -50,11 +58,13 @@ namespace kiko
 			!kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
 		{
 			kiko::vec2 up = kiko::vec2{ 0, -1 };
-			m_physicsComponent->SetVelocity(up * jump);
+			m_physicsComponent->SetVelocity(velocity + (up * jump));
 		}
 
+		//if (velocity.y > 0)m_physicsComponent->SetGravityScale(3);
+		m_physicsComponent->SetGravityScale((velocity.y > 0) ? 5.0f : 3.0f);
+
 		// animation
-		vec2 velocity = m_physicsComponent->velocity;
 
 		// check if movin' 
 		if (std::fabs(velocity.x) > 0.2f) // absolute value of a float
@@ -101,6 +111,7 @@ namespace kiko
 		Actor::Read(value);
 
 		READ_DATA(value, speed);
+		READ_DATA(value, maxSpeed);
 		READ_DATA(value, jump);
 	}
 }
